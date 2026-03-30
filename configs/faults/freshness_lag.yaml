@@ -1,0 +1,10 @@
+table_ref: tlc_trips
+mode: missing
+delay_days_map:
+  low: 1
+  medium: 2
+  high: 3
+severity_map:
+  low: 1
+  medium: 1
+  high: 1

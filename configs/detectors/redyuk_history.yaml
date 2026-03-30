@@ -1,0 +1,3 @@
+table_ref: tlc_trips
+static_threshold: 3.0
+history_window: 5

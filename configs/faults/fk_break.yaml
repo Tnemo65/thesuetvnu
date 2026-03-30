@@ -1,0 +1,8 @@
+target_column: PULocationID
+table_ref: tlc_trips
+relation_ref: tlc_trips:taxi_zone_lookup
+invalid_value: 9999
+severity_map:
+  low: 0.05
+  medium: 0.15
+  high: 0.30

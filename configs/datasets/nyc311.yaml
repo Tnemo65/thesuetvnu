@@ -1,0 +1,13 @@
+name: nyc311
+synthetic_sample: false
+batch_col: batch_id
+table_ref: nyc311_requests
+relation_ref: nyc311_requests:agency_lookup
+null_columns:
+  - Complaint Type
+  - Agency
+duplicate_key:
+  - Unique Key
+range_columns: {}
+fk_columns: {}
+calibration_batches: 30

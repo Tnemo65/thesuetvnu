@@ -1,0 +1,5 @@
+table_ref: tlc_trips
+severity_map:
+  low: 0.10
+  medium: 0.25
+  high: 0.50

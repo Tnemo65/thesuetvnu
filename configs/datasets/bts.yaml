@@ -1,0 +1,21 @@
+name: bts
+synthetic_sample: false
+batch_col: batch_id
+table_ref: bts_flights
+relation_ref: bts_flights:carrier_lookup
+null_columns:
+  - ArrDelay
+  - DepDelay
+duplicate_key:
+  - FlightDate
+  - UniqueCarrier
+  - FlightNum
+range_columns:
+  ArrDelay:
+    min: -60
+    max: 1440
+  DepDelay:
+    min: -60
+    max: 1440
+fk_columns: {}
+calibration_batches: 30

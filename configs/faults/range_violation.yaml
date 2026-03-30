@@ -1,0 +1,13 @@
+target_column: trip_distance
+table_ref: tlc_trips
+min: 0.0
+max: 100.0
+violation_direction: above_max
+severity_map:
+  low: 0.10
+  medium: 0.25
+  high: 0.50
+delta_map:
+  low: 20.0
+  medium: 50.0
+  high: 100.0

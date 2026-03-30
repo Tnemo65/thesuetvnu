@@ -1,0 +1,34 @@
+name: tlc
+synthetic_sample: true
+sample_days: 14
+sample_rows_per_day: 50
+sample_seed: 42
+batch_col: batch_id
+table_ref: tlc_trips
+relation_ref: tlc_trips:taxi_zone_lookup
+null_columns:
+  - fare_amount
+  - trip_distance
+  - passenger_count
+duplicate_key:
+  - VendorID
+  - batch_id
+  - PULocationID
+  - DOLocationID
+  - fare_amount
+range_columns:
+  trip_distance:
+    min: 0.0
+    max: 100.0
+  fare_amount:
+    min: 2.5
+    max: 500.0
+  passenger_count:
+    min: 1
+    max: 6
+fk_columns:
+  PULocationID:
+    valid_values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  DOLocationID:
+    valid_values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+calibration_batches: 5

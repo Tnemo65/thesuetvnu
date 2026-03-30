@@ -1,0 +1,20 @@
+name: chicago_food
+synthetic_sample: false
+batch_col: batch_id
+table_ref: chicago_food_inspections
+relation_ref: chicago_food_inspections:license_lookup
+null_columns:
+  - Results
+  - Risk
+duplicate_key:
+  - Inspection ID
+  - License #
+range_columns:
+  Latitude:
+    min: -90.0
+    max: 90.0
+  Longitude:
+    min: -180.0
+    max: 180.0
+fk_columns: {}
+calibration_batches: 30
