@@ -1,0 +1,66 @@
+artifact_requirements:
+  snapshot_policy:
+    scope: released_dataset_snapshot
+    required_fields:
+      - dataset_identifier
+      - snapshot_identifier
+      - snapshot_date
+      - source_reference
+      - schema_version_reference
+      - raw_file_checksums
+      - support_table_checksums
+  public_release_contents:
+    scope: paper_scale_release
+    required_artifacts:
+      - benchmark_source_code
+      - executable_condition_configs
+      - seed_lists
+      - data_acquisition_scripts
+      - monitored_scope_catalogs
+      - injection_manifests
+      - calibration_cleanliness_reports
+      - strict_pydantic_models
+      - pandera_schemas
+      - manifests_and_checksums
+      - frozen_split_definitions
+      - containerized_runtime_environment
+      - one_command_pilot_entry_point
+      - one_command_full_suite_entry_point
+      - runtime_measurement_policy_and_hardware_manifest
+      - detector_adapter_template
+      - output_schema_validator
+      - machine_readable_schema_validation_reports
+      - canonical_output_schemas
+      - aggregate_tables_used_in_paper
+  per_run_outputs:
+    scope: run
+    required_outputs:
+      - alerts
+      - incidents
+      - matches
+      - metrics
+      - schema_validation
+  detector_submission:
+    scope: detector_submission
+    required_outputs:
+      - detector_configuration_manifest
+      - software_version_manifest
+      - runtime_environment_manifest
+  paper_scale_release_outputs:
+    scope: paper_scale_release
+    required_outputs:
+      - per_domain_summary_tables
+      - shared_core_cross_domain_leaderboard_tables
+      - fk_break_extension_tables
+      - external_validation_case_study_outputs
+      - bts_audit_backed_supplementary_validation_outputs
+  raw_data_policy:
+    redistributable_source:
+      required_outputs:
+        - raw_files_packaged_per_source_policy
+    non_redistributable_source:
+      required_outputs:
+        - acquisition_procedure
+        - exact_source_references
+        - checksums
+        - expected_local_directory_structure

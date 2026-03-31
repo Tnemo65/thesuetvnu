@@ -13,7 +13,7 @@ def test_run_spec_validates_dirty_run():
             "severity": "medium",
             "duration": "one_window",
             "seed": 1,
-            "detector": "naive_threshold",
+            "detector": "calibration_threshold_lower_bound",
             "calibration_policy": "percentile_95",
         }
     )
@@ -41,7 +41,7 @@ def test_incident_and_alert_validate():
         {
             "alert_id": "a1",
             "run_id": "r1",
-            "detector": "naive_threshold",
+            "detector": "calibration_threshold_lower_bound",
             "domain": "tlc",
             "batch_id": "2025-01-01",
             "scope_level": "column",

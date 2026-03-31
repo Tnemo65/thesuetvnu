@@ -1,0 +1,3 @@
+table_ref: tlc_trips
+ewma_lambda: 0.3
+cusum_k: 0.5

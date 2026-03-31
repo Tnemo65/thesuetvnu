@@ -18,11 +18,11 @@ It exists because the older `architecture.md` is intentionally limited to a runt
 
 Use the following precedence when this file is read together with other project documents:
 
-1. `/home/dtl/Documents/thes/docs/documentation.md`
-2. `/home/dtl/Documents/thes/docs/implementation_plan.md`
-3. `/home/dtl/Documents/thes/AGENTS.md`
-4. `/home/dtl/Documents/thes/thesuetvnu/docs/architecture_v2.md`
-5. `/home/dtl/Documents/thes/thesuetvnu/docs/architecture.md`
+1. `docs/documentation.md`
+2. `docs/implementation_plan.md`
+3. `AGENTS.md`
+4. `docs/architecture_v2.md`
+5. `docs/architecture.md`
 
 This file explains the architecture implied by the spec. It does not override the spec.
 
@@ -410,4 +410,4 @@ Avoid compact code-shaped labels as primary diagram wording.
 
 This file is the preferred architecture reference for current project-aligned explanations.
 
-The older `/home/dtl/Documents/thes/thesuetvnu/docs/architecture.md` may still be useful as a narrow runtime-diagram prompt, but it should not be treated as the complete architecture description of the current benchmark.
+The older `docs/architecture.md` may still be useful as a narrow runtime-diagram prompt, but it should not be treated as the complete architecture description of the current benchmark.

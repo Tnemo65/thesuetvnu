@@ -5,15 +5,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict
 
-from dqbench.contracts.runs import VALID_DOMAINS, VALID_DURATIONS, VALID_FAULTS, VALID_SEVERITIES
+from dqbench.contracts.benchmark import (
+    VALID_DOMAINS,
+    VALID_DURATIONS,
+    VALID_FAULT_FAMILIES,
+    VALID_SCOPE_LEVELS,
+    VALID_SEVERITIES,
+)
 from dqbench.utils.validation import (
     require_choice,
     require_mapping,
     require_non_empty,
     require_ordered_bounds,
 )
-
-VALID_SCOPE_LEVELS = ("relation", "table", "column")
 
 
 @dataclass(frozen=True)
@@ -35,9 +39,9 @@ class IncidentRecord:
         require_non_empty("incident_id", self.incident_id)
         require_non_empty("run_id", self.run_id)
         require_choice("domain", self.domain, VALID_DOMAINS)
-        require_choice("family", self.family, VALID_FAULTS[:-1])
-        require_choice("severity", self.severity, VALID_SEVERITIES[:-1])
-        require_choice("duration", self.duration, VALID_DURATIONS[:-1])
+        require_choice("family", self.family, VALID_FAULT_FAMILIES)
+        require_choice("severity", self.severity, VALID_SEVERITIES)
+        require_choice("duration", self.duration, VALID_DURATIONS)
         require_mapping("target_scope", self.target_scope)
         require_choice("target_scope.level", self.target_scope.get("level"), VALID_SCOPE_LEVELS)
         require_non_empty("target_scope.ref", self.target_scope.get("ref"))

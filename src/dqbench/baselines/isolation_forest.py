@@ -1,19 +1,17 @@
-"""Isolation Forest baseline with optional sklearn backend."""
+"""Isolation Forest baseline using the required scikit-learn backend."""
 
 from __future__ import annotations
 
 from typing import Dict, List
 
-import numpy as np
 import pandas as pd
 
 from dqbench.baselines.base import DetectorAdapter
-from dqbench.baselines.naive_threshold import NaiveThresholdBaseline
 from dqbench.data.profiling import numeric_feature_columns
 
 try:
     from sklearn.ensemble import IsolationForest as SKIsolationForest
-except Exception:  # pragma: no cover - exercised by fallback path on machines without sklearn
+except Exception:  # pragma: no cover - import error depends on local environment
     SKIsolationForest = None
 
 
@@ -24,25 +22,28 @@ class IsolationForestBaseline(DetectorAdapter):
         self.feature_columns: List[str] = []
         self.table_ref: str = "table"
         self.model = None
-        self.fallback = NaiveThresholdBaseline()
 
     def fit(self, calibration_profiles: pd.DataFrame, config: Dict[str, object]) -> None:
         self.feature_columns = list(config.get("feature_columns") or numeric_feature_columns(calibration_profiles))
         self.table_ref = str(config.get("table_ref", "table"))
         if SKIsolationForest is None:
-            self.fallback.fit(calibration_profiles, config)
-            self.model = None
-            return
+            raise RuntimeError(
+                "IsolationForest baseline requires scikit-learn. "
+                "Install the project with the 'ml' extra instead of using a fallback detector."
+            )
         self.model = SKIsolationForest(
-            n_estimators=int(config.get("n_estimators", 100)),
-            contamination=float(config.get("contamination", 0.05)),
-            random_state=int(config.get("random_state", 42)),
+            n_estimators=256,
+            max_samples=min(256, len(calibration_profiles)),
+            max_features=1.0,
+            bootstrap=False,
+            contamination="auto",
+            random_state=42,
         )
         self.model.fit(calibration_profiles[self.feature_columns])
 
     def score(self, eval_profiles: pd.DataFrame) -> pd.DataFrame:
         if self.model is None:
-            return self.fallback.score(eval_profiles)
+            raise RuntimeError("fit must be called before score")
         raw_scores = -self.model.decision_function(eval_profiles[self.feature_columns])
         return pd.DataFrame(
             {

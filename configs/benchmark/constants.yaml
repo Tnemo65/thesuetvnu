@@ -1,0 +1,89 @@
+benchmark:
+  domains:
+    core:
+      - id: tlc
+        label: NYC TLC
+        batch_unit: daily
+      - id: bts
+        label: BTS On-Time
+        batch_unit: daily
+      - id: chicago_food
+        label: Chicago Food
+        batch_unit: weekly
+    external_validation:
+      - id: nyc311
+        label: NYC 311
+        batch_unit: daily
+  supplementary_appendices:
+    - id: bts_opsnet_audit_backed_appendix
+      label: BTS audit-backed supplementary appendix
+      primary_domain_id: bts
+      reference_dataset_id: faa_opsnet
+  fault_families:
+    - null_spike
+    - range_violation
+    - duplicate_burst
+    - freshness_lag
+    - fk_break
+  primary_leaderboard_fault_families:
+    - null_spike
+    - range_violation
+    - duplicate_burst
+    - freshness_lag
+  detectors:
+    - calibration_threshold_lower_bound
+    - constraint_rule_baseline
+    - history_based_robust_profile
+    - ewma_cusum_sequential
+    - isolation_forest
+  primary_metrics:
+    - incident_recall
+    - incident_precision
+    - incident_f1
+    - detection_delay_norm_mean
+    - localization_accuracy_hierarchical
+    - duplicate_burden
+    - clean_run_fp_batch
+    - runtime_per_1m_rows
+  supplementary_metrics:
+    - detection_delay_raw_mean
+    - localization_accuracy_strict
+    - clean_run_fp_alert
+    - runtime_overhead_seconds
+    - weak_label_hit_rate
+    - weak_label_lead_lag_median
+  condition_axes:
+    severities:
+      - low
+      - medium
+      - high
+    durations:
+      - one_window
+      - sustained
+    seeds_per_condition: 5
+  calibration:
+    primary_leaderboard_policy: percentile_95
+    threshold_sensitivity_policies:
+      - percentile_90
+      - percentile_95
+      - percentile_99
+  run_matrix:
+    fk_break_extension_domains:
+      - tlc
+      - bts
+    per_domain:
+      tlc:
+        dirty_runs: 150
+        clean_runs: 1
+      bts:
+        dirty_runs: 150
+        clean_runs: 1
+      chicago_food:
+        dirty_runs: 120
+        clean_runs: 1
+    totals:
+      shared_core_dirty_conditions: 360
+      fk_break_extension_conditions: 60
+      clean_evaluation_runs: 3
+      benchmark_runs: 423
+      detector_executions_locked_baselines: 2115

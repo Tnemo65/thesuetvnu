@@ -26,7 +26,7 @@ def test_matching_and_metrics_capture_duplicates_and_delay():
             {
                 "alert_id": "a1",
                 "run_id": "r1",
-                "detector": "naive_threshold",
+                "detector": "calibration_threshold_lower_bound",
                 "domain": "tlc",
                 "batch_id": "2025-01-02",
                 "scope_level": "column",
@@ -40,7 +40,7 @@ def test_matching_and_metrics_capture_duplicates_and_delay():
             {
                 "alert_id": "a2",
                 "run_id": "r1",
-                "detector": "naive_threshold",
+                "detector": "calibration_threshold_lower_bound",
                 "domain": "tlc",
                 "batch_id": "2025-01-02",
                 "scope_level": "column",

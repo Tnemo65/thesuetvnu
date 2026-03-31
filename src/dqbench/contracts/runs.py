@@ -5,6 +5,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict
 
+from dqbench.contracts.benchmark import (
+    VALID_BATCH_UNITS,
+    VALID_CALIBRATIONS,
+    VALID_DETECTORS,
+    VALID_DOMAINS,
+    VALID_FAULTS,
+    VALID_RUN_DURATIONS as VALID_DURATIONS,
+    VALID_RUN_SEVERITIES as VALID_SEVERITIES,
+)
 from dqbench.utils.validation import (
     ValidationError,
     require_choice,
@@ -12,14 +21,6 @@ from dqbench.utils.validation import (
     require_non_empty,
     require_non_negative_int,
 )
-
-VALID_DOMAINS = ("tlc", "bts", "chicago_food", "nyc311")
-VALID_BATCH_UNITS = ("daily", "weekly")
-VALID_FAULTS = ("null_spike", "duplicate_burst", "range_violation", "freshness_lag", "fk_break", "clean")
-VALID_SEVERITIES = ("low", "medium", "high", "none")
-VALID_DURATIONS = ("one_window", "sustained", "none")
-VALID_DETECTORS = ("naive_threshold", "great_expectations", "isolation_forest", "redyuk_history")
-VALID_CALIBRATIONS = ("static", "percentile_95", "alert_budget_5pct")
 
 
 @dataclass(frozen=True)

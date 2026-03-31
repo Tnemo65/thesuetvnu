@@ -1,4 +1,4 @@
-"""Experiment runner for the TLC pilot and future domain expansion."""
+"""Experiment runner for scaffolded benchmark runs."""
 
 from __future__ import annotations
 
@@ -12,10 +12,11 @@ from typing import Dict, Tuple
 import pandas as pd
 
 from dqbench.baselines.base import build_run_id
-from dqbench.baselines.great_expectations_adapter import GreatExpectationsAdapter
+from dqbench.baselines.calibration_threshold_lower_bound import CalibrationThresholdLowerBoundBaseline
+from dqbench.baselines.constraint_rule_baseline import ConstraintRuleBaseline
+from dqbench.baselines.ewma_cusum_sequential import EWMACUSUMSequentialBaseline
+from dqbench.baselines.history_based_robust_profile import HistoryBasedRobustProfileBaseline
 from dqbench.baselines.isolation_forest import IsolationForestBaseline
-from dqbench.baselines.naive_threshold import NaiveThresholdBaseline
-from dqbench.baselines.redyuk_history import RedyukHistoryBaseline
 from dqbench.config import load_run_spec, load_yaml
 from dqbench.contracts.incidents import IncidentRecord
 from dqbench.data.base import PreparedDataset
@@ -37,10 +38,11 @@ ADAPTERS = {
 }
 
 DETECTORS = {
-    "naive_threshold": NaiveThresholdBaseline,
-    "great_expectations": GreatExpectationsAdapter,
+    "calibration_threshold_lower_bound": CalibrationThresholdLowerBoundBaseline,
+    "constraint_rule_baseline": ConstraintRuleBaseline,
+    "history_based_robust_profile": HistoryBasedRobustProfileBaseline,
+    "ewma_cusum_sequential": EWMACUSUMSequentialBaseline,
     "isolation_forest": IsolationForestBaseline,
-    "redyuk_history": RedyukHistoryBaseline,
 }
 
 

@@ -1,0 +1,83 @@
+release_gate:
+  release_class: paper_scale
+  requirements:
+    - id: locked_design_no_scope_drift
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the locked design is executed without scope drift
+    - id: core_domains_executed
+      check_type: integer_equals
+      expected: 3
+      scope: release
+      description: all three core domains are executed under the locked protocol
+    - id: released_datasets_pass_domain_inclusion_gate
+      check_type: boolean
+      expected: true
+      scope: release
+      description: all released datasets satisfy the domain inclusion gate
+    - id: shared_core_leaderboard_reported
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the shared-core leaderboard is reported on matched core-domain conditions
+    - id: fk_break_extension_reported_for_qualifying_domains
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the fk_break extension is reported on every domain with validated public support tables
+    - id: locked_baseline_families_executed
+      check_type: integer_equals
+      expected: 5
+      scope: release
+      description: all five locked baseline families are executed
+    - id: primary_metrics_reported_per_condition
+      check_type: integer_equals
+      expected: 8
+      scope: benchmark_condition
+      description: all eight primary metrics are reported for every benchmark condition
+    - id: clean_run_false_positive_evaluation_included
+      check_type: boolean
+      expected: true
+      scope: release
+      description: clean-run false-positive evaluation is included
+    - id: monitored_scope_and_injection_artifacts_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: monitored scope catalogs, injection manifests, and calibration cleanliness reports are published
+    - id: runtime_boundary_and_hardware_policy_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: runtime boundary and hardware policy are published
+    - id: threshold_sensitivity_appendix_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the threshold-sensitivity appendix is published
+    - id: inferential_statistics_reported
+      check_type: boolean
+      expected: true
+      scope: release
+      description: inferential statistics are reported on the shared-core leaderboard
+    - id: external_validation_track_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the external validation track is published with both descriptive reports
+    - id: bts_audit_backed_appendix_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the BTS audit-backed supplementary validation appendix is published
+    - id: strict_schema_validation_passes
+      check_type: boolean
+      expected: true
+      scope: release
+      description: all released configs and benchmark outputs pass strict schema validation
+    - id: reproducible_artifact_bundle_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the reproducible artifact bundle is published with manifests, checksums, frozen splits, seeds, executable configs, aggregate tables, and detector-submission validation utilities

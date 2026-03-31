@@ -5,8 +5,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict
 
-from dqbench.contracts.incidents import VALID_SCOPE_LEVELS
-from dqbench.contracts.runs import VALID_CALIBRATIONS, VALID_DETECTORS, VALID_DOMAINS
+from dqbench.contracts.benchmark import (
+    VALID_CALIBRATIONS,
+    VALID_DETECTORS,
+    VALID_DOMAINS,
+    VALID_SCOPE_LEVELS,
+)
 from dqbench.utils.validation import require_choice, require_mapping, require_non_empty
 
 

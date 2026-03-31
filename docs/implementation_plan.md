@@ -4,7 +4,7 @@ Checklist này là bản triển khai chi tiết cho coder follow khi xây `dq-a
 
 Nguồn chân lý duy nhất cho checklist này là:
 
-- `/home/dtl/Documents/thes/docs/documentation.md`
+- `docs/documentation.md`
 
 Checklist này:
 
@@ -12,6 +12,11 @@ Checklist này:
 - không mở rộng scope ngoài spec
 - không thay spec bằng prompt implement
 - được sắp theo thứ tự phụ thuộc để tránh miss việc
+
+Quy ước audit:
+
+- Chỉ tick khi repo hiện tại đã có bằng chứng rõ ràng bằng code, config, contract, test, hoặc doc governance đã khóa xong.
+- Nếu mới chỉ là scaffold, partial flow, hoặc chưa được verify đủ mức checklist yêu cầu thì để trống.
 
 ## Cách dùng
 
@@ -23,35 +28,35 @@ Checklist này:
 
 ### 0.1 Benchmark constants
 
-- [ ] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
-  - [ ] `3` core domains
-  - [ ] `1` external validation domain
-  - [ ] `1` BTS audit-backed supplementary appendix
-  - [ ] `5` fault families
-  - [ ] `5` locked baselines
-  - [ ] `8` primary metrics
-  - [ ] `5` seeds per condition
-  - [ ] `2` durations
-  - [ ] `3` severities
-- [ ] Khóa toàn bộ benchmark identifiers:
-  - [ ] `domain`
-  - [ ] `fault_family`
-  - [ ] `severity`
-  - [ ] `duration`
-  - [ ] `scope_level`
-  - [ ] `batch_unit`
-  - [ ] `calibration_policy`
+- [x] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
+  - [x] `3` core domains
+  - [x] `1` external validation domain
+  - [x] `1` BTS audit-backed supplementary appendix
+  - [x] `5` fault families
+  - [x] `5` locked baselines
+  - [x] `8` primary metrics
+  - [x] `5` seeds per condition
+  - [x] `2` durations
+  - [x] `3` severities
+- [x] Khóa toàn bộ benchmark identifiers:
+  - [x] `domain`
+  - [x] `fault_family`
+  - [x] `severity`
+  - [x] `duration`
+  - [x] `scope_level`
+  - [x] `batch_unit`
+  - [x] `calibration_policy`
 
 ### 0.2 Run matrix and release gate
 
-- [ ] Khóa run matrix:
-  - [ ] `NYC TLC`: `150` dirty runs + `1` clean run
-  - [ ] `BTS On-Time`: `150` dirty runs + `1` clean run
-  - [ ] `Chicago Food`: `120` dirty runs + `1` clean run
-  - [ ] `423` total benchmark runs
-  - [ ] `2115` detector executions for the `5` locked baselines
-- [ ] Chuyển paper-scale release gate thành checklist machine-checkable.
-- [ ] Chuyển artifact requirements thành checklist machine-checkable.
+- [x] Khóa run matrix:
+  - [x] `NYC TLC`: `150` dirty runs + `1` clean run
+  - [x] `BTS On-Time`: `150` dirty runs + `1` clean run
+  - [x] `Chicago Food`: `120` dirty runs + `1` clean run
+  - [x] `423` total benchmark runs
+  - [x] `2115` detector executions cho `5` locked baselines
+- [x] Chuyển paper-scale release gate thành checklist machine-checkable.
+- [x] Chuyển artifact requirements thành checklist machine-checkable.
 
 ### 0.3 Contracts and schemas
 
@@ -74,8 +79,8 @@ Checklist này:
   - [ ] matches
   - [ ] metrics
 - [ ] Khóa canonical output schemas cho:
-  - [ ] `alerts`
-  - [ ] `incidents`
+  - [x] `alerts`
+  - [x] `incidents`
   - [ ] `matches`
   - [ ] `metrics`
   - [ ] `schema_validation`
@@ -87,11 +92,11 @@ Checklist này:
 
 ### Deliverables
 
-- [ ] benchmark constants manifest
-- [ ] enum/identifier definitions
+- [x] benchmark constants manifest
+- [x] enum/identifier definitions
 - [ ] strict `Pydantic` models
 - [ ] `Pandera` schemas
-- [ ] release-gate checklist machine-readable
+- [x] release-gate checklist machine-readable
 
 ## Phase 1. Dataset Acquisition and Snapshot Freeze
 
@@ -209,11 +214,11 @@ Checklist này:
 
 ### 4.1 Fault-family implementation
 
-- [ ] Implement `null_spike`.
-- [ ] Implement `range_violation`.
-- [ ] Implement `duplicate_burst`.
-- [ ] Implement `freshness_lag`.
-- [ ] Implement `fk_break`.
+- [x] Implement `null_spike`.
+- [x] Implement `range_violation`.
+- [x] Implement `duplicate_burst`.
+- [x] Implement `freshness_lag`.
+- [x] Implement `fk_break`.
 
 ### 4.2 Injection contracts
 
@@ -239,25 +244,25 @@ Checklist này:
 ### 4.4 Incident contract
 
 - [ ] Đảm bảo mỗi dirty run chỉ có:
-  - [ ] đúng `1` incident
-  - [ ] đúng `1` fault family
+  - [x] đúng `1` incident
+  - [x] đúng `1` fault family
 - [ ] Materialize incident records với:
-  - [ ] fault family
-  - [ ] domain
-  - [ ] severity
-  - [ ] duration
-  - [ ] target scope
-  - [ ] incident start batch
-  - [ ] incident end batch
-  - [ ] detection window start batch
-  - [ ] detection window end batch
+  - [x] fault family
+  - [x] domain
+  - [x] severity
+  - [x] duration
+  - [x] target scope
+  - [x] incident start batch
+  - [x] incident end batch
+  - [x] detection window start batch
+  - [x] detection window end batch
 - [ ] Materialize injection manifests với realized pre/post values.
 
 ### Deliverables
 
-- [ ] injection operators
+- [x] injection operators
 - [ ] injection manifests
-- [ ] incident records
+- [x] incident records
 - [ ] severity validation reports
 
 ## Phase 5. Batch Profiling
@@ -265,19 +270,19 @@ Checklist này:
 ### 5.1 Profile generation
 
 - [ ] Tính canonical batch profiles với đúng feature contract:
-  - [ ] `row_count`
-  - [ ] `null_ratio__<column>`
-  - [ ] `duplicate_ratio`
-  - [ ] `min__<column>`
-  - [ ] `max__<column>`
-  - [ ] `range_violation_ratio__<column>`
-  - [ ] `invalid_fk_ratio__<column>`
+  - [x] `row_count`
+  - [x] `null_ratio__<column>`
+  - [x] `duplicate_ratio`
+  - [x] `min__<column>`
+  - [x] `max__<column>`
+  - [x] `range_violation_ratio__<column>`
+  - [x] `invalid_fk_ratio__<column>`
 
 ### 5.2 Validation and freeze
 
 - [ ] Validate calibration profiles bằng `Pandera`.
 - [ ] Validate evaluation profiles bằng `Pandera`.
-- [ ] Freeze profile-generation logic để mọi baseline consume cùng interface.
+- [x] Freeze profile-generation logic để mọi baseline consume cùng interface.
 
 ### Deliverables
 
@@ -289,35 +294,35 @@ Checklist này:
 
 ### 6.1 Implement locked baselines
 
-- [ ] Implement `Calibration Threshold Lower Bound`.
-- [ ] Implement `Constraint-Rule Baseline`.
-- [ ] Implement `History-Based Robust Profile Baseline`.
-- [ ] Implement `EWMA-CUSUM Sequential Baseline`.
-- [ ] Implement `Isolation Forest Baseline`.
+- [x] Implement `Calibration Threshold Lower Bound`.
+- [x] Implement `Constraint-Rule Baseline`.
+- [x] Implement `History-Based Robust Profile Baseline`.
+- [x] Implement `EWMA-CUSUM Sequential Baseline`.
+- [x] Implement `Isolation Forest Baseline`.
 
 ### 6.2 Baseline-specific constraints
 
-- [ ] `Constraint-Rule Baseline` phải dùng fixed rule catalog trên benchmark feature families.
-- [ ] `History-Based` phải dùng fixed history window `8`.
+- [x] `Constraint-Rule Baseline` phải dùng fixed rule catalog trên benchmark feature families.
+- [x] `History-Based` phải dùng fixed history window `8`.
 - [ ] `EWMA-CUSUM` phải dùng:
-  - [ ] `lambda = 0.3`
-  - [ ] `k = 0.5`
-  - [ ] zero initialization at run start
-  - [ ] table-scoped handling theo spec
-- [ ] `Isolation Forest` phải dùng đúng fixed hyperparameters.
+  - [x] `lambda = 0.3`
+  - [x] `k = 0.5`
+  - [x] zero initialization at run start
+  - [x] table-scoped handling theo spec
+- [x] `Isolation Forest` phải dùng đúng fixed hyperparameters.
 
 ### 6.3 Fairness policy
 
-- [ ] Tất cả baselines dùng cùng canonical batch profiles.
-- [ ] Thresholds chỉ calibrated từ clean calibration scores.
-- [ ] Hyperparameters fixed theo detector family trong một domain.
-- [ ] State-bearing baselines chỉ được initialize từ clean calibration prefix.
-- [ ] Mỗi baseline emit tối đa `1 alert / batch`.
+- [x] Tất cả baselines dùng cùng canonical batch profiles.
+- [x] Thresholds chỉ calibrated từ clean calibration scores.
+- [x] Hyperparameters fixed theo detector family trong một domain.
+- [x] State-bearing baselines chỉ được initialize từ clean calibration prefix.
+- [x] Mỗi baseline emit tối đa `1 alert / batch`.
 
 ### Deliverables
 
-- [ ] `5` baseline implementations
-- [ ] detector config manifests
+- [x] `5` baseline implementations
+- [x] detector config manifests
 - [ ] detector-level smoke tests
 
 ## Phase 7. Alert Generation, Matching, and Metrics
@@ -325,55 +330,55 @@ Checklist này:
 ### 7.1 Alert contract
 
 - [ ] Chuẩn hóa canonical alert schema với đầy đủ fields:
-  - [ ] detector identifier
-  - [ ] domain identifier
-  - [ ] batch identifier
-  - [ ] scope level
-  - [ ] scope reference
-  - [ ] scalar score
-  - [ ] calibration policy identifier
+  - [x] detector identifier
+  - [x] domain identifier
+  - [x] batch identifier
+  - [x] scope level
+  - [x] scope reference
+  - [x] scalar score
+  - [x] calibration policy identifier
 - [ ] Implement deterministic reduction cho detector native phát nhiều alert trong một batch.
 
 ### 7.2 Matching engine
 
 - [ ] Implement scope compatibility:
-  - [ ] exact column match -> `1.0`
-  - [ ] parent table match for column incident -> `0.5`
-  - [ ] exact table match -> `1.0`
-  - [ ] column match for table incident -> `0.0`
-- [ ] Implement `greedy earliest-valid-unmatched` matching.
-- [ ] Track duplicate alerts sau first matched alert.
+  - [x] exact column match -> `1.0`
+  - [x] parent table match for column incident -> `0.5`
+  - [x] exact table match -> `1.0`
+  - [x] column match for table incident -> `0.0`
+- [x] Implement `greedy earliest-valid-unmatched` matching.
+- [x] Track duplicate alerts sau first matched alert.
 
 ### 7.3 Metrics engine
 
 - [ ] Implement `8` primary metrics:
-  - [ ] `incident_recall`
-  - [ ] `incident_precision`
-  - [ ] `incident_f1`
-  - [ ] `detection_delay_norm_mean`
-  - [ ] `localization_accuracy_hierarchical`
-  - [ ] `duplicate_burden`
-  - [ ] `clean_run_fp_batch`
-  - [ ] `runtime_per_1m_rows`
+  - [x] `incident_recall`
+  - [x] `incident_precision`
+  - [x] `incident_f1`
+  - [x] `detection_delay_norm_mean`
+  - [x] `localization_accuracy_hierarchical`
+  - [x] `duplicate_burden`
+  - [x] `clean_run_fp_batch`
+  - [x] `runtime_per_1m_rows`
 - [ ] Implement supplementary metrics:
-  - [ ] `detection_delay_raw_mean`
-  - [ ] `localization_accuracy_strict`
-  - [ ] `clean_run_fp_alert`
-  - [ ] `runtime_overhead_seconds`
+  - [x] `detection_delay_raw_mean`
+  - [x] `localization_accuracy_strict`
+  - [x] `clean_run_fp_alert`
+  - [x] `runtime_overhead_seconds`
   - [ ] `weak_label_hit_rate`
   - [ ] `weak_label_lead_lag_median`
 - [ ] Implement metric edge cases:
-  - [ ] zero-alert precision
-  - [ ] zero denominator `f1`
-  - [ ] unmatched incident delay penalty
-  - [ ] unmatched incident localization credit
+  - [x] zero-alert precision
+  - [x] zero denominator `f1`
+  - [x] unmatched incident delay penalty
+  - [x] unmatched incident localization credit
   - [ ] fixed runtime boundary metadata
 
 ### Deliverables
 
-- [ ] alerts
-- [ ] matches
-- [ ] metrics
+- [x] alerts
+- [x] matches
+- [x] metrics
 - [ ] schema validation outputs
 
 ## Phase 8. External Validation and Supplementary Appendix
@@ -463,10 +468,10 @@ Checklist này:
 ### 11.1 Required machine-readable outputs
 
 - [ ] Với mỗi run, materialize:
-  - [ ] `alerts`
-  - [ ] `incidents`
-  - [ ] `matches`
-  - [ ] `metrics`
+  - [x] `alerts`
+  - [x] `incidents`
+  - [x] `matches`
+  - [x] `metrics`
   - [ ] `schema_validation`
 - [ ] Với mỗi detector submission, materialize:
   - [ ] detector configuration manifest
@@ -572,7 +577,7 @@ Checklist này:
 ### Evaluation tests
 
 - [ ] Matching logic đúng scope compatibility table.
-- [ ] Duplicate burden logic đúng.
+- [x] Duplicate burden logic đúng.
 - [ ] Delay penalty logic đúng.
 - [ ] Zero-alert precision và zero-denominator `f1` đúng.
 - [ ] Weak-label metrics đúng định nghĩa.
@@ -591,10 +596,10 @@ Checklist này:
 
 ## Defaults and Locked Assumptions
 
-- [ ] Chỉ bám `/home/dtl/Documents/thes/docs/documentation.md`.
-- [ ] Không thêm domain mới.
-- [ ] Không thêm deep model.
-- [ ] Không mở rộng detector API ra ngoài canonical batch-profile interface + declared public support tables.
-- [ ] `BTS` appendix là supplementary weak-label validation, không phải exact-label leaderboard.
-- [ ] `EWMA-CUSUM` là baseline temporal bắt buộc trong locked set.
-- [ ] `Pydantic + Pandera` là bắt buộc trong implementation contract, không để tới cuối mới thêm.
+- [x] Chỉ bám `docs/documentation.md`.
+- [x] Không thêm domain mới.
+- [x] Không thêm deep model.
+- [x] Không mở rộng detector API ra ngoài canonical batch-profile interface + declared public support tables.
+- [x] `BTS` appendix là supplementary weak-label validation, không phải exact-label leaderboard.
+- [x] `EWMA-CUSUM` là baseline temporal bắt buộc trong locked set.
+- [x] `Pydantic + Pandera` là bắt buộc trong implementation contract, không để tới cuối mới thêm.

@@ -31,10 +31,10 @@ def compute_metrics(
     total_incidents = len(match_result.incidents)
     total_alerts = len(match_result.alerts)
     matched_count = len(match_result.matched_pairs)
-    precision = (matched_count / total_alerts) if total_alerts else None
+    precision = (matched_count / total_alerts) if total_alerts else 0.0
     recall = (matched_count / total_incidents) if total_incidents else None
-    f1 = None
-    if precision is not None and recall is not None and (precision + recall) > 0:
+    f1 = 0.0 if recall is not None else None
+    if recall is not None and (precision + recall) > 0:
         f1 = 2 * precision * recall / (precision + recall)
 
     batch_positions = _batch_position_map(batch_index)
@@ -42,6 +42,7 @@ def compute_metrics(
     delay_norm_values = []
     localization_scores_strict = []
     localization_scores_hier = []
+    matched_incidents = {incident.incident_id for _, incident in match_result.matched_pairs}
     for alert, incident in match_result.matched_pairs:
         start_pos = batch_positions.get(incident.start_batch, 0)
         alert_pos = batch_positions.get(alert.batch_id, start_pos)
@@ -55,6 +56,10 @@ def compute_metrics(
         localization_scores_hier.append(
             _hierarchical_localization_score(alert.scope_level, alert.scope_ref, incident.target_scope)
         )
+    for incident in match_result.incidents:
+        if incident.incident_id not in matched_incidents:
+            delay_norm_values.append(1.0)
+            localization_scores_hier.append(0.0)
 
     duplicate_burden = None
     if total_incidents:

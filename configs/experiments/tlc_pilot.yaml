@@ -6,10 +6,10 @@ run_spec:
   severity: medium
   duration: one_window
   seed: 7
-  detector: naive_threshold
-  calibration_policy: static
+  detector: calibration_threshold_lower_bound
+  calibration_policy: percentile_95
 dataset_config_path: configs/datasets/tlc.yaml
 fault_config_path: configs/faults/null_spike.yaml
-detector_config_path: configs/detectors/naive_threshold.yaml
+detector_config_path: configs/detectors/calibration_threshold_lower_bound.yaml
 calibration_config_path: configs/calibrations/defaults.yaml
 output_dir: outputs/runs/tlc_pilot
