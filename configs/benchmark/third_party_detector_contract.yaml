@@ -1,0 +1,14 @@
+third_party_detector_contract:
+  allowed_input_artifacts:
+    - canonical_batch_profiles
+    - declared_public_support_tables
+  required_input_artifacts:
+    - canonical_batch_profiles
+  forbidden_side_channels:
+    - hidden_incident_labels
+    - unreleased_snapshots
+    - benchmark_private_metadata
+  required_submission_artifacts:
+    - canonical_alert_schema
+    - detector_configuration_manifest
+    - software_version_manifest

@@ -29,6 +29,7 @@ from dqbench.data.tlc import TLCDatasetAdapter
 from dqbench.evaluation.matching import match_alerts
 from dqbench.evaluation.metrics import compute_metrics
 from dqbench.injection.registry import build_injector
+from dqbench.utils.schema_validation import build_run_schema_validation_artifact
 
 ADAPTERS = {
     "tlc": TLCDatasetAdapter,
@@ -128,30 +129,37 @@ def run_experiment(config_path: str | Path) -> Dict[str, object]:
         clean_batch_count=clean_batch_count,
         row_count=len(dirty_df),
     )
+    match_artifact = {
+        "matched_pairs": [
+            {"alert_id": alert.alert_id, "incident_id": incident.incident_id}
+            for alert, incident in match_result.matched_pairs
+        ],
+        "duplicate_alert_ids": [alert.alert_id for alert in match_result.duplicate_alerts],
+        "unmatched_alert_ids": [alert.alert_id for alert in match_result.unmatched_alerts],
+        "missed_incident_ids": [incident.incident_id for incident in match_result.missed_incidents],
+    }
 
     output_dir = config.get("output_dir")
     if output_dir:
+        schema_validation = build_run_schema_validation_artifact(
+            output_dir=str(output_dir),
+            alerts=alerts,
+            incidents=incidents,
+            match_result=match_result,
+            metrics=metrics,
+        )
         write_json(Path(output_dir) / "alerts.json", [asdict(alert) for alert in alerts])
         write_json(Path(output_dir) / "incidents.json", [asdict(incident) for incident in incidents])
-        write_json(
-            Path(output_dir) / "matches.json",
-            {
-                "matched_pairs": [
-                    {"alert_id": alert.alert_id, "incident_id": incident.incident_id}
-                    for alert, incident in match_result.matched_pairs
-                ],
-                "duplicate_alert_ids": [alert.alert_id for alert in match_result.duplicate_alerts],
-                "unmatched_alert_ids": [alert.alert_id for alert in match_result.unmatched_alerts],
-                "missed_incident_ids": [incident.incident_id for incident in match_result.missed_incidents],
-            },
-        )
+        write_json(Path(output_dir) / "matches.json", match_artifact)
         write_json(Path(output_dir) / "metrics.json", metrics)
+        write_json(Path(output_dir) / "schema_validation.json", schema_validation)
 
     return {
         "run_id": build_run_id(run_spec),
         "alerts": alerts,
         "incidents": incidents,
         "match_result": match_result,
+        "match_artifact": match_artifact,
         "metrics": metrics,
         "batch_index": dirty_batch_index,
         "scores_df": eval_scores_df,

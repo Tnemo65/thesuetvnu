@@ -68,34 +68,34 @@ Quy ước audit:
   - [x] detector configuration manifest
   - [x] runtime manifest
   - [x] schema validation report
-- [ ] Định nghĩa `Pandera` schemas cho:
-  - [ ] canonical dataframe
-  - [ ] support tables
-  - [ ] canonical batch index
-  - [ ] calibration profiles
-  - [ ] evaluation profiles
-  - [ ] alerts
-  - [ ] incidents
-  - [ ] matches
-  - [ ] metrics
-- [ ] Khóa canonical output schemas cho:
+- [x] Định nghĩa `Pandera` schemas cho:
+  - [x] canonical dataframe
+  - [x] support tables
+  - [x] canonical batch index
+  - [x] calibration profiles
+  - [x] evaluation profiles
+  - [x] alerts
+  - [x] incidents
+  - [x] matches
+  - [x] metrics
+- [x] Khóa canonical output schemas cho:
   - [x] `alerts`
   - [x] `incidents`
-  - [ ] `matches`
-  - [ ] `metrics`
-  - [ ] `schema_validation`
-- [ ] Khóa third-party detector contract:
-  - [ ] input chỉ gồm canonical batch profiles + declared public support tables
-  - [ ] không truy cập hidden labels hoặc benchmark-private metadata
-  - [ ] output phải đúng canonical alert schema
-  - [ ] detector phải xuất config manifest + software version
+  - [x] `matches`
+  - [x] `metrics`
+  - [x] `schema_validation`
+- [x] Khóa third-party detector contract:
+  - [x] input chỉ gồm canonical batch profiles + declared public support tables
+  - [x] không truy cập hidden labels hoặc benchmark-private metadata
+  - [x] output phải đúng canonical alert schema
+  - [x] detector phải xuất config manifest + software version
 
 ### Deliverables
 
 - [x] benchmark constants manifest
 - [x] enum/identifier definitions
 - [x] strict `Pydantic` models
-- [ ] `Pandera` schemas
+- [x] `Pandera` schemas
 - [x] release-gate checklist machine-readable
 
 ## Phase 1. Dataset Acquisition and Snapshot Freeze
@@ -379,7 +379,7 @@ Quy ước audit:
 - [x] alerts
 - [x] matches
 - [x] metrics
-- [ ] schema validation outputs
+- [x] schema validation outputs
 
 ## Phase 8. External Validation and Supplementary Appendix
 
@@ -472,7 +472,7 @@ Quy ước audit:
   - [x] `incidents`
   - [x] `matches`
   - [x] `metrics`
-  - [ ] `schema_validation`
+  - [x] `schema_validation`
 - [ ] Với mỗi detector submission, materialize:
   - [ ] detector configuration manifest
   - [ ] software version manifest

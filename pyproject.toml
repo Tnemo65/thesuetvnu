@@ -7,7 +7,7 @@ name = "dq-alert-benchmark"
 version = "0.1.0"
 description = "Reproducible benchmark for tabular data-quality alerting"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
   { name = "dtl" }
@@ -16,6 +16,7 @@ dependencies = [
   "duckdb>=1.0.0",
   "numpy>=1.22",
   "pandas>=1.5",
+  "pandera[pandas]>=0.30.1",
   "pydantic>=1.10,<2",
   "pyarrow>=12.0.0",
   "PyYAML>=6.0",
