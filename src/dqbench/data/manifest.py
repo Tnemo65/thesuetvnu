@@ -6,22 +6,24 @@ import argparse
 import csv
 import hashlib
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List
 
 from dqbench.config import dump_yaml
+from dqbench.contracts.manifests import SnapshotManifest, SnapshotManifestEntry
 
 
 @dataclass
 class SnapshotEntry:
-    domain: str
+    dataset_id: str
     snapshot_id: str
-    source_url: str
+    source_reference: str
     local_path: str
     snapshot_date: str
-    schema_version: str
+    schema_version_reference: str
     checksum_sha256: str
+    file_role: str = "raw_file"
 
 
 def sha256_file(path: str | Path) -> str:
@@ -33,7 +35,10 @@ def sha256_file(path: str | Path) -> str:
 
 
 def write_manifest(path: str | Path, entries: Iterable[SnapshotEntry]) -> None:
-    dump_yaml(path, {"entries": [asdict(entry) for entry in entries]})
+    manifest = SnapshotManifest(
+        entries=[SnapshotManifestEntry(**entry.__dict__) for entry in entries],
+    )
+    dump_yaml(path, json.loads(manifest.json()))
 
 
 def main() -> None:
@@ -51,13 +56,14 @@ def main() -> None:
         for row in csv.DictReader(handle):
             entries.append(
                 SnapshotEntry(
-                    domain=args.domain,
+                    dataset_id=args.domain,
                     snapshot_id=args.snapshot_id,
-                    source_url=row["source_url"],
+                    source_reference=row.get("source_reference") or row["source_url"],
                     local_path=row["local_path"],
                     snapshot_date=args.snapshot_date,
-                    schema_version=args.schema_version,
+                    schema_version_reference=args.schema_version,
                     checksum_sha256=sha256_file(row["local_path"]),
+                    file_role=row.get("file_role", "raw_file"),
                 )
             )
 

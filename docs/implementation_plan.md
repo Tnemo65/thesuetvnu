@@ -60,14 +60,14 @@ Quy ước audit:
 
 ### 0.3 Contracts and schemas
 
-- [ ] Định nghĩa strict `Pydantic` models cho:
-  - [ ] snapshot manifest
-  - [ ] monitored scope catalog
-  - [ ] calibration cleanliness report
-  - [ ] injection manifest
-  - [ ] detector configuration manifest
-  - [ ] runtime manifest
-  - [ ] schema validation report
+- [x] Định nghĩa strict `Pydantic` models cho:
+  - [x] snapshot manifest
+  - [x] monitored scope catalog
+  - [x] calibration cleanliness report
+  - [x] injection manifest
+  - [x] detector configuration manifest
+  - [x] runtime manifest
+  - [x] schema validation report
 - [ ] Định nghĩa `Pandera` schemas cho:
   - [ ] canonical dataframe
   - [ ] support tables
@@ -94,7 +94,7 @@ Quy ước audit:
 
 - [x] benchmark constants manifest
 - [x] enum/identifier definitions
-- [ ] strict `Pydantic` models
+- [x] strict `Pydantic` models
 - [ ] `Pandera` schemas
 - [x] release-gate checklist machine-readable
 
