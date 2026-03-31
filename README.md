@@ -34,6 +34,6 @@ Thu muc chinh:
 - `configs`: dataset, detector, fault, experiment, calibration configs
 - `scripts`: wrappers va acquisition helpers
 - `tests`: unit + integration smoke tests
-- `docs`: ghi chu protocol, claims, va reproducibility
+- `docs`: ghi chu protocol, claims, reproducibility, va architecture overview
 
 Phan acquisition cho cac data portal song duoc thiet ke theo mo hinh `snapshot-first`: luu `manifest`, `checksum`, `snapshot_date`, va `schema_version`.
