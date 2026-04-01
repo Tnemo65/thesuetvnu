@@ -1,0 +1,21 @@
+acquisition_workflow:
+  dataset_id: osha_severe_injury_reports
+  dataset_label: OSHA Severe Injury Reports
+  portal_page: https://www.osha.gov/severe-injury-reports
+  schema_version_reference: https://www.osha.gov/severe-injury-reports
+  schema_references:
+    - https://www.osha.gov/severe-injury-reports
+    - https://www.osha.gov/news/newsreleases/trade/20240904
+  primary_event_timestamp_column: EventDate
+  update_cadence_documentation: Public OSHA severe injury data is published through the official dashboard export and is batched daily in the benchmark by EventDate.
+  batch_unit: daily
+  portal_workflow: []
+  raw_assets:
+    - asset_id: osha_severe_injury_reports_snapshot
+      file_role: raw_file
+      acquisition_mode: direct_url
+      source_reference: https://www.osha.gov/sites/default/files/January2015toJuly2025.zip
+      local_name_template: osha_severe_injury_reports_{snapshot_id}.zip
+      url_template: https://www.osha.gov/sites/default/files/January2015toJuly2025.zip
+      description: Full official OSHA Severe Injury Reports zip snapshot as published from the dashboard export.
+  support_assets: []

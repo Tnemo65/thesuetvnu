@@ -7,10 +7,10 @@ from typing import Final
 CORE_DOMAIN_IDS: Final[tuple[str, ...]] = (
     "tlc",
     "bts",
-    "chicago_food",
-    "nyc_parking_violations",
+    "cfpb_consumer_complaints",
+    "osha_severe_injury_reports",
     "nyc_hpd_housing_complaints_violations",
-    "chicago_building_permits",
+    "sec_edgar",
 )
 EXTERNAL_VALIDATION_DOMAIN_IDS: Final[tuple[str, ...]] = ("nyc311", "austin311")
 SUPPLEMENTARY_APPENDIX_IDS: Final[tuple[str, ...]] = ("bts_opsnet_audit_backed_appendix",)
@@ -19,10 +19,10 @@ VALID_DOMAINS: Final[tuple[str, ...]] = CORE_DOMAIN_IDS + EXTERNAL_VALIDATION_DO
 DOMAIN_BATCH_UNITS: Final[dict[str, str]] = {
     "tlc": "daily",
     "bts": "daily",
-    "chicago_food": "weekly",
-    "nyc_parking_violations": "daily",
+    "cfpb_consumer_complaints": "daily",
+    "osha_severe_injury_reports": "daily",
     "nyc_hpd_housing_complaints_violations": "daily",
-    "chicago_building_permits": "daily",
+    "sec_edgar": "daily",
     "nyc311": "daily",
     "austin311": "daily",
 }
@@ -101,9 +101,9 @@ RUN_MATRIX: Final[dict[str, object]] = {
     "per_domain": {
         "tlc": {"dirty_runs": 150, "clean_runs": 1},
         "bts": {"dirty_runs": 150, "clean_runs": 1},
-        "chicago_food": {"dirty_runs": 120, "clean_runs": 1},
-        "nyc_parking_violations": {"dirty_runs": 120, "clean_runs": 1},
+        "cfpb_consumer_complaints": {"dirty_runs": 120, "clean_runs": 1},
+        "osha_severe_injury_reports": {"dirty_runs": 120, "clean_runs": 1},
         "nyc_hpd_housing_complaints_violations": {"dirty_runs": 120, "clean_runs": 1},
-        "chicago_building_permits": {"dirty_runs": 120, "clean_runs": 1},
+        "sec_edgar": {"dirty_runs": 120, "clean_runs": 1},
     },
 }

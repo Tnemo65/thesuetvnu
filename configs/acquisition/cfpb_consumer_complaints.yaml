@@ -1,0 +1,22 @@
+acquisition_workflow:
+  dataset_id: cfpb_consumer_complaints
+  dataset_label: CFPB Consumer Complaint Database
+  portal_page: https://www.consumerfinance.gov/data-research/consumer-complaints/
+  schema_version_reference: https://cfpb.github.io/api/ccdb/fields.html
+  schema_references:
+    - https://www.consumerfinance.gov/data-research/consumer-complaints/
+    - https://cfpb.github.io/api/ccdb/fields.html
+    - https://cfpb.github.io/api/ccdb/api.html
+  primary_event_timestamp_column: Date received
+  update_cadence_documentation: Public CFPB complaint data is released through the official complaint database and is batched daily in the benchmark by Date received.
+  batch_unit: daily
+  portal_workflow: []
+  raw_assets:
+    - asset_id: cfpb_consumer_complaints_snapshot
+      file_role: raw_file
+      acquisition_mode: direct_url
+      source_reference: https://files.consumerfinance.gov/ccdb/complaints.csv.zip
+      local_name_template: cfpb_consumer_complaints_{snapshot_id}.csv.zip
+      url_template: https://files.consumerfinance.gov/ccdb/complaints.csv.zip
+      description: Full official CFPB Consumer Complaint Database CSV zip snapshot.
+  support_assets: []

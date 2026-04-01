@@ -1,0 +1,21 @@
+acquisition_workflow:
+  dataset_id: sec_edgar
+  dataset_label: SEC EDGAR
+  portal_page: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  schema_version_reference: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  schema_references:
+    - https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+    - https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
+  primary_event_timestamp_column: filingDate
+  update_cadence_documentation: Public SEC EDGAR submission histories are available through the official EDGAR APIs and are batched daily in the benchmark by filingDate.
+  batch_unit: daily
+  portal_workflow: []
+  raw_assets:
+    - asset_id: sec_edgar_submissions_snapshot
+      file_role: raw_file
+      acquisition_mode: direct_url
+      source_reference: https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
+      local_name_template: sec_edgar_submissions_{snapshot_id}.zip
+      url_template: https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
+      description: Nightly bulk archive of public EDGAR submissions histories.
+  support_assets: []

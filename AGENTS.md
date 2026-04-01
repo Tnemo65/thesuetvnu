@@ -87,10 +87,10 @@ Agents should assume the following are fixed unless `documentation.md` is intent
 
 - `NYC TLC` as a core domain
 - `BTS On-Time` as a core domain
-- `Chicago Food` as a core domain
-- `NYC Parking Violations` as a core domain
+- `CFPB Consumer Complaint Database` as a core domain
+- `OSHA Severe Injury Reports` as a core domain
 - `NYC HPD Housing Complaints and Violations` as a core domain
-- `Chicago Building Permits` as a core domain
+- `SEC EDGAR` as a core domain
 - `NYC 311` as an external validation case study
 - `Austin 311` as an external validation case study
 - `BTS audit-backed supplementary appendix` using frozen `BTS` plus frozen `FAA OPSNET` extract
@@ -146,10 +146,10 @@ Agents should assume the following are fixed unless `documentation.md` is intent
 
 - `NYC TLC`: `150` dirty runs + `1` clean evaluation run
 - `BTS On-Time`: `150` dirty runs + `1` clean evaluation run
-- `Chicago Food`: `120` dirty runs + `1` clean evaluation run
-- `NYC Parking Violations`: `120` dirty runs + `1` clean evaluation run
+- `CFPB Consumer Complaint Database`: `120` dirty runs + `1` clean evaluation run
+- `OSHA Severe Injury Reports`: `120` dirty runs + `1` clean evaluation run
 - `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean evaluation run
-- `Chicago Building Permits`: `120` dirty runs + `1` clean evaluation run
+- `SEC EDGAR`: `120` dirty runs + `1` clean evaluation run
 - `786` total benchmark runs
 - `3930` detector executions for the `5` locked baselines
 - `4716` detector executions for the `6` public-code reference detectors

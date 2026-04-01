@@ -96,7 +96,10 @@ Primary inputs:
 
 - `NYC TLC`
 - `BTS On-Time`
-- `Chicago Food`
+- `CFPB Consumer Complaint Database`
+- `OSHA Severe Injury Reports`
+- `NYC HPD Housing Complaints and Violations`
+- `SEC EDGAR`
 - `NYC 311`
 - `FAA OPSNET`
 

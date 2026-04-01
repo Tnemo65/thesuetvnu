@@ -54,10 +54,10 @@ The benchmark does not study:
 |---|---|---|---|---|
 | `NYC TLC` | Yellow Taxi trip records | Taxi zone lookup | Daily | Core domain for transportation operations and reference-backed integrity checks |
 | `BTS On-Time` | Airline On-Time Performance | Carrier and airport support tables | Daily | Core domain for operational reporting and history-aware monitoring |
-| `Chicago Food` | Food inspection records | Official schema and score semantics | Weekly | Core domain for public-health inspection data and duplicate-oriented validation |
-| `NYC Parking Violations` | Parking Violations Issued | Official schema export and data dictionary fields published through NYC Open Data | Daily | Core domain for large-volume civic enforcement operations with strong completeness, timeliness, and duplication monitoring value |
+| `CFPB Consumer Complaint Database` | Consumer financial complaint records | Official field reference and complaint-taxonomy documentation | Daily | Core domain for large-scale federal complaint operations with response-lifecycle and timeliness monitoring value |
+| `OSHA Severe Injury Reports` | Employer-reported severe workplace injuries | Official reporting-rule documentation and dashboard field semantics | Daily | Core domain for workplace safety incident reporting with public regulatory semantics and incident-timing signal |
 | `NYC HPD Housing Complaints and Violations` | HPD housing maintenance complaints and violation files | HPD open-data documentation and violation-file reference documentation | Daily | Core domain for recurring housing-quality enforcement workflows with complaint-to-violation lifecycle semantics |
-| `Chicago Building Permits` | Building permits | Official schema export and permit-field documentation | Daily | Core domain for recurring regulatory permitting operations with strong validity, completeness, and timeliness monitoring value |
+| `SEC EDGAR` | Public EDGAR submissions history | Official submissions API documentation and filing-metadata references | Daily | Core domain for high-volume federal disclosure operations with strong completeness, timeliness, and duplication monitoring value |
 
 The six core domains support claims about heterogeneous public operational domains represented in this release. They are not intended to stand in for every operational domain such as healthcare, finance, or private enterprise data pipelines.
 
@@ -77,11 +77,16 @@ The six core domains support claims about heterogeneous public operational domai
 - `BTS On-Time` release information: https://www.transtats.bts.gov/releaseinfo.asp
 - `BTS On-Time` database information: https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EGI&Yv0x=D
 - `BTS On-Time` PREZIP archive: https://transtats.bts.gov/PREZIP/
-- `Chicago Food` official schema export: https://data.cityofchicago.org/api/views/j8a4-a59k/rows.pdf
-- `NYC Parking Violations` open data dataset: https://data.cityofnewyork.us/d/pvqr-7yc4
+- `CFPB Consumer Complaint Database` portal: https://www.consumerfinance.gov/data-research/consumer-complaints/
+- `CFPB Consumer Complaint Database` CSV download: https://files.consumerfinance.gov/ccdb/complaints.csv.zip
+- `CFPB Consumer Complaint Database` field reference: https://cfpb.github.io/api/ccdb/fields.html
+- `OSHA Severe Injury Reports` dashboard: https://www.osha.gov/severe-injury-reports
+- `OSHA Severe Injury Reports` full dataset download: https://www.osha.gov/sites/default/files/January2015toJuly2025.zip
+- `OSHA` severe injury dashboard launch note: https://www.osha.gov/news/newsreleases/trade/20240904
 - `NYC HPD` open data portal: https://www.nyc.gov/site/hpd/about/open-data.page
 - `NYC HPD` open violations dataset: https://data.cityofnewyork.us/d/csn4-vhvf
-- `Chicago Building Permits` official schema export: https://data.cityofchicago.org/api/views/ydr8-5enu/rows.pdf
+- `SEC EDGAR` API documentation: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+- `SEC EDGAR` submissions bulk archive: https://www.sec.gov/Archives/edgar/daily-index/bulkdata/submissions.zip
 - `NYC 311` open data portal: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-for-2010-to-present-New-York-/ar4e-ihmq/about
 - `NYC 311` service-request location accuracy assessment: https://www.nyc.gov/assets/oti/downloads/pdf/reports/311-location-accuracy-assessment-2022.pdf
 - `NYC 311` reporting FAQ: https://www.nyc.gov/site/311reporting/faq/faq.page
@@ -114,10 +119,10 @@ For the locked domains in this specification, the minimum admissible paper-scale
 
 - `NYC TLC`: one contiguous `24-month` window of official monthly trip-record releases
 - `BTS On-Time`: one contiguous `24-month` window of official monthly `PREZIP` releases
-- `Chicago Food`: one contiguous `104-week` window of the official weekly-updated public dataset
-- `NYC Parking Violations`: one contiguous `24-month` event-time window from the full official open-data extract
+- `CFPB Consumer Complaint Database`: one contiguous `24-month` `Date received` window from the full official complaint export
+- `OSHA Severe Injury Reports`: one contiguous `24-month` `Event Date` window from the full official severe-injury extract
 - `NYC HPD Housing Complaints and Violations`: one contiguous `24-month` event-time window from the full official open-data extract
-- `Chicago Building Permits`: one contiguous `24-month` event-time window from the full official open-data extract
+- `SEC EDGAR`: one contiguous `24-month` `filingDate` window from the full official submissions archive
 
 Paper-scale releases must use the full official extract for the frozen window. Releases must not downsample rows, prefilter to hand-picked topical subsets, or prune batches for convenience before canonicalization, except for documented column pruning needed to build the canonical fact table.
 
@@ -230,10 +235,10 @@ The `fk_break` family is reported as a reference-backed extension on domains tha
 |---|---|---|---|---|---|
 | `NYC TLC` | Yes | Yes | Yes | Yes | Yes |
 | `BTS On-Time` | Yes | Yes | Yes | Yes | Yes |
-| `Chicago Food` | Yes | Yes | Yes | Yes | No |
-| `NYC Parking Violations` | Yes | Yes | Yes | Yes | No |
+| `CFPB Consumer Complaint Database` | Yes | Yes | Yes | Yes | No |
+| `OSHA Severe Injury Reports` | Yes | Yes | Yes | Yes | No |
 | `NYC HPD Housing Complaints and Violations` | Yes | Yes | Yes | Yes | No |
-| `Chicago Building Permits` | Yes | Yes | Yes | Yes | No |
+| `SEC EDGAR` | Yes | Yes | Yes | Yes | No |
 | `NYC 311` | Validation only | Validation only | Validation only | Validation only | No |
 | `Austin 311` | Validation only | Validation only | Validation only | Validation only | No |
 
@@ -243,10 +248,10 @@ The benchmark locks the following batch policies:
 
 - `NYC TLC`: daily batches
 - `BTS On-Time`: daily batches
-- `Chicago Food`: weekly batches
-- `NYC Parking Violations`: daily batches
+- `CFPB Consumer Complaint Database`: daily batches
+- `OSHA Severe Injury Reports`: daily batches
 - `NYC HPD Housing Complaints and Violations`: daily batches
-- `Chicago Building Permits`: daily batches
+- `SEC EDGAR`: daily batches
 - `NYC 311`: daily batches for case-study analysis
 - `Austin 311`: daily batches for case-study analysis
 
@@ -387,10 +392,10 @@ This yields:
 
 - `NYC TLC`: `150` dirty runs + `1` clean evaluation run
 - `BTS On-Time`: `150` dirty runs + `1` clean evaluation run
-- `Chicago Food`: `120` dirty runs + `1` clean evaluation run
-- `NYC Parking Violations`: `120` dirty runs + `1` clean evaluation run
+- `CFPB Consumer Complaint Database`: `120` dirty runs + `1` clean evaluation run
+- `OSHA Severe Injury Reports`: `120` dirty runs + `1` clean evaluation run
 - `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean evaluation run
-- `Chicago Building Permits`: `120` dirty runs + `1` clean evaluation run
+- `SEC EDGAR`: `120` dirty runs + `1` clean evaluation run
 
 Across the full paper-scale matrix, this corresponds to:
 

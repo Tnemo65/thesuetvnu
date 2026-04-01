@@ -48,10 +48,10 @@ def test_run_matrix_is_locked_to_spec_counts():
 
     assert per_domain["tlc"] == {"dirty_runs": 150, "clean_runs": 1}
     assert per_domain["bts"] == {"dirty_runs": 150, "clean_runs": 1}
-    assert per_domain["chicago_food"] == {"dirty_runs": 120, "clean_runs": 1}
-    assert per_domain["nyc_parking_violations"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["cfpb_consumer_complaints"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["osha_severe_injury_reports"] == {"dirty_runs": 120, "clean_runs": 1}
     assert per_domain["nyc_hpd_housing_complaints_violations"] == {"dirty_runs": 120, "clean_runs": 1}
-    assert per_domain["chicago_building_permits"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["sec_edgar"] == {"dirty_runs": 120, "clean_runs": 1}
 
     total_runs = sum(item["dirty_runs"] + item["clean_runs"] for item in per_domain.values())
     assert RUN_MATRIX["shared_core_dirty_conditions"] == 720

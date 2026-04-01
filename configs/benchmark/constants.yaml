@@ -7,17 +7,17 @@ benchmark:
       - id: bts
         label: BTS On-Time
         batch_unit: daily
-      - id: chicago_food
-        label: Chicago Food
-        batch_unit: weekly
-      - id: nyc_parking_violations
-        label: NYC Parking Violations
+      - id: cfpb_consumer_complaints
+        label: CFPB Consumer Complaint Database
+        batch_unit: daily
+      - id: osha_severe_injury_reports
+        label: OSHA Severe Injury Reports
         batch_unit: daily
       - id: nyc_hpd_housing_complaints_violations
         label: NYC HPD Housing Complaints and Violations
         batch_unit: daily
-      - id: chicago_building_permits
-        label: Chicago Building Permits
+      - id: sec_edgar
+        label: SEC EDGAR
         batch_unit: daily
     external_validation:
       - id: nyc311
@@ -104,16 +104,16 @@ benchmark:
       bts:
         dirty_runs: 150
         clean_runs: 1
-      chicago_food:
+      cfpb_consumer_complaints:
         dirty_runs: 120
         clean_runs: 1
-      nyc_parking_violations:
+      osha_severe_injury_reports:
         dirty_runs: 120
         clean_runs: 1
       nyc_hpd_housing_complaints_violations:
         dirty_runs: 120
         clean_runs: 1
-      chicago_building_permits:
+      sec_edgar:
         dirty_runs: 120
         clean_runs: 1
     totals:

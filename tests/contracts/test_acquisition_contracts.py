@@ -13,10 +13,10 @@ def test_repository_acquisition_workflows_load_for_all_phase1_sources():
     expected = {
         "tlc": "direct_url",
         "bts": "manual_portal",
-        "chicago_food": "manual_portal",
-        "nyc_parking_violations": "manual_portal",
+        "cfpb_consumer_complaints": "direct_url",
+        "osha_severe_injury_reports": "direct_url",
         "nyc_hpd_housing_complaints_violations": "manual_portal",
-        "chicago_building_permits": "manual_portal",
+        "sec_edgar": "direct_url",
         "nyc311": "manual_portal",
         "austin311": "manual_portal",
         "faa_opsnet": "manual_portal",

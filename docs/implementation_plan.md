@@ -53,10 +53,10 @@ Quy ước audit:
 - [x] Khóa run matrix:
   - [x] `NYC TLC`: `150` dirty runs + `1` clean run
   - [x] `BTS On-Time`: `150` dirty runs + `1` clean run
-  - [x] `Chicago Food`: `120` dirty runs + `1` clean run
-  - [x] `NYC Parking Violations`: `120` dirty runs + `1` clean run
+  - [x] `CFPB Consumer Complaint Database`: `120` dirty runs + `1` clean run
+  - [x] `OSHA Severe Injury Reports`: `120` dirty runs + `1` clean run
   - [x] `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean run
-  - [x] `Chicago Building Permits`: `120` dirty runs + `1` clean run
+  - [x] `SEC EDGAR`: `120` dirty runs + `1` clean run
   - [x] `786` total benchmark runs
   - [x] `3930` detector executions cho `5` locked baselines
   - [x] `4716` detector executions cho `6` public-code reference detectors
@@ -148,10 +148,10 @@ Quy ước audit:
 - [ ] Cài acquisition workflow cho:
   - [x] `NYC TLC`
   - [x] `BTS On-Time`
-  - [x] `Chicago Food`
-  - [x] `NYC Parking Violations`
+  - [x] `CFPB Consumer Complaint Database`
+  - [x] `OSHA Severe Injury Reports`
   - [x] `NYC HPD Housing Complaints and Violations`
-  - [x] `Chicago Building Permits`
+  - [x] `SEC EDGAR`
   - [x] `NYC 311`
   - [x] `Austin 311`
   - [x] `FAA OPSNET` supplementary extract
@@ -207,10 +207,10 @@ Quy ước audit:
 - [ ] Verify locked minimum paper-scale windows:
   - [ ] `NYC TLC`: contiguous `24-month` official window
   - [ ] `BTS On-Time`: contiguous `24-month` official `PREZIP` window
-  - [ ] `Chicago Food`: contiguous `104-week` official window
-  - [ ] `NYC Parking Violations`: contiguous `24-month` official event-time window
+  - [ ] `CFPB Consumer Complaint Database`: contiguous `24-month` `Date received` window
+  - [ ] `OSHA Severe Injury Reports`: contiguous `24-month` `Event Date` window
   - [ ] `NYC HPD Housing Complaints and Violations`: contiguous `24-month` official event-time window
-  - [ ] `Chicago Building Permits`: contiguous `24-month` official event-time window
+  - [ ] `SEC EDGAR`: contiguous `24-month` `filingDate` window
 - [ ] Publish domain-scale disclosure cho từng core domain:
   - [ ] total canonical fact-row count
   - [ ] batch-row-count `p05`

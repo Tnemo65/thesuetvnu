@@ -68,12 +68,13 @@ Audited files:
 
 - [configs/acquisition/tlc.yaml](../configs/acquisition/tlc.yaml)
 - [configs/acquisition/bts.yaml](../configs/acquisition/bts.yaml)
-- [configs/acquisition/chicago_food.yaml](../configs/acquisition/chicago_food.yaml)
+- [configs/acquisition/cfpb_consumer_complaints.yaml](../configs/acquisition/cfpb_consumer_complaints.yaml)
+- [configs/acquisition/osha_severe_injury_reports.yaml](../configs/acquisition/osha_severe_injury_reports.yaml)
+- [configs/acquisition/sec_edgar.yaml](../configs/acquisition/sec_edgar.yaml)
 - [configs/acquisition/nyc311.yaml](../configs/acquisition/nyc311.yaml)
 - [configs/acquisition/faa_opsnet.yaml](../configs/acquisition/faa_opsnet.yaml)
 - [configs/datasets/tlc.yaml](../configs/datasets/tlc.yaml)
 - [configs/datasets/bts.yaml](../configs/datasets/bts.yaml)
-- [configs/datasets/chicago_food.yaml](../configs/datasets/chicago_food.yaml)
 - [configs/datasets/nyc311.yaml](../configs/datasets/nyc311.yaml)
 - [scripts/download_snapshots.py](../scripts/download_snapshots.py)
 - [src/dqbench/data/acquisition.py](../src/dqbench/data/acquisition.py)
@@ -83,17 +84,18 @@ Current drift from spec:
 - acquisition workflow configs now exist for all locked Phase 1 public sources:
   - `tlc`
   - `bts`
-  - `chicago_food`
-  - `nyc_parking_violations`
+  - `cfpb_consumer_complaints`
+  - `osha_severe_injury_reports`
   - `nyc_hpd_housing_complaints_violations`
-  - `chicago_building_permits`
+  - `sec_edgar`
   - `nyc311`
   - `austin311`
   - `faa_opsnet`
 - missing dataset configs for:
-  - `NYC Parking Violations`
+  - `CFPB Consumer Complaint Database`
+  - `OSHA Severe Injury Reports`
   - `NYC HPD Housing Complaints and Violations`
-  - `Chicago Building Permits`
+  - `SEC EDGAR`
   - `Austin 311`
 - [configs/datasets/tlc.yaml](../configs/datasets/tlc.yaml) still describes a `synthetic_sample` pilot and fixed `calibration_batches: 5`, which conflicts with the locked `snapshot-first` and `30% / min 24` calibration policy
 - existing dataset configs still hardcode legacy fields such as `calibration_batches`, which are no longer the source of truth for split generation
@@ -170,12 +172,7 @@ Audited files:
 
 Current drift from spec:
 
-- acquisition contract tests still only expect the old five workflows:
-  - `tlc`
-  - `bts`
-  - `chicago_food`
-  - `nyc311`
-  - `faa_opsnet`
+- acquisition contract tests currently validate workflow loading and mode declarations, but they still do not exercise live accessibility or usability checks for the full replacement set
 - orchestration tests are still pilot-only:
   - `test_tlc_pilot.py` assumes the synthetic TLC pilot path
   - reference-detector tests only cover `ECOD`, `COPOD`, and `EIF`
