@@ -1,0 +1,28 @@
+acquisition_workflow:
+  dataset_id: austin311
+  dataset_label: Austin 311
+  portal_page: https://311.austintexas.gov/open311
+  schema_version_reference: https://www.austintexas.gov/3-1-1/get-service-requests
+  schema_references:
+    - https://www.austintexas.gov/department/developer-resources
+    - https://311.austintexas.gov/open311
+    - https://311.austintexas.gov/open311/docs
+    - https://www.austintexas.gov/3-1-1/get-service-requests
+  primary_event_timestamp_column: requested_datetime
+  update_cadence_documentation: Austin 3-1-1 exposes service-request records through the official Open311 query surface; the benchmark batches the frozen snapshot daily by requested_datetime.
+  batch_unit: daily
+  portal_workflow:
+    - Open the official Austin 3-1-1 Open311 page, the Open311 API documentation page, and the Get Service Requests method reference.
+    - Query the official Open311 requests endpoint for the frozen 12-month window using start_date, end_date, page_size, and page, preserving deterministic page order across the full window.
+    - Include extensions=true so the frozen snapshot preserves the documented extended request fields used by the benchmark case studies.
+    - Concatenate the paged JSON responses into one frozen raw file and save it into the manual input directory using the exact expected name austin311_{snapshot_id}.json.
+    - Save the corresponding method reference and API documentation pages alongside the snapshot manifests.
+  raw_assets:
+    - asset_id: austin311_open311_snapshot
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://311.austintexas.gov/open311/v2/requests.json
+      local_name_template: austin311_{snapshot_id}.json
+      manual_source_name_template: austin311_{snapshot_id}.json
+      description: Frozen official Austin 3-1-1 Open311 service-request snapshot assembled from the documented paginated requests endpoint over the locked benchmark window.
+  support_assets: []

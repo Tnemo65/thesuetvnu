@@ -14,7 +14,11 @@ def test_repository_acquisition_workflows_load_for_all_phase1_sources():
         "tlc": "direct_url",
         "bts": "manual_portal",
         "chicago_food": "manual_portal",
+        "nyc_parking_violations": "manual_portal",
+        "nyc_hpd_housing_complaints_violations": "manual_portal",
+        "chicago_building_permits": "manual_portal",
         "nyc311": "manual_portal",
+        "austin311": "manual_portal",
         "faa_opsnet": "manual_portal",
     }
 

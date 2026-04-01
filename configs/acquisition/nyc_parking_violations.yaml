@@ -1,0 +1,25 @@
+acquisition_workflow:
+  dataset_id: nyc_parking_violations
+  dataset_label: NYC Parking Violations
+  portal_page: https://data.cityofnewyork.us/d/pvqr-7yc4
+  schema_version_reference: https://data.cityofnewyork.us/api/views/pvqr-7yc4/columns.json
+  schema_references:
+    - https://data.cityofnewyork.us/d/pvqr-7yc4
+    - https://data.cityofnewyork.us/api/views/pvqr-7yc4/columns.json
+  primary_event_timestamp_column: Issue Date
+  update_cadence_documentation: Public NYC Parking Violations data is available through NYC Open Data and is batched daily in the benchmark by Issue Date.
+  batch_unit: daily
+  portal_workflow:
+    - Open the official NYC Parking Violations dataset page and verify the frozen fiscal-year or multi-year export workflow on NYC Open Data.
+    - Export the full official CSV extract for the frozen benchmark window without prefiltering rows before archival.
+    - Save the exported raw file into the manual input directory using the exact expected name nyc_parking_violations_{snapshot_id}.csv.
+    - Save the matching columns.json schema export for the same dataset version alongside the snapshot manifests.
+  raw_assets:
+    - asset_id: nyc_parking_violations_snapshot
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://data.cityofnewyork.us/d/pvqr-7yc4
+      local_name_template: nyc_parking_violations_{snapshot_id}.csv
+      manual_source_name_template: nyc_parking_violations_{snapshot_id}.csv
+      description: Frozen full official CSV snapshot exported from the NYC Open Data Parking Violations dataset.
+  support_assets: []

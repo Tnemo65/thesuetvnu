@@ -1,0 +1,36 @@
+acquisition_workflow:
+  dataset_id: nyc_hpd_housing_complaints_violations
+  dataset_label: NYC HPD Housing Complaints and Violations
+  portal_page: https://www.nyc.gov/site/hpd/about/open-data.page
+  schema_version_reference: https://data.cityofnewyork.us/api/views/ygpa-z7cr/columns.json
+  schema_references:
+    - https://www.nyc.gov/site/hpd/about/open-data.page
+    - https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Complaints-and-Problems/ygpa-z7cr/about_data
+    - https://data.cityofnewyork.us/api/views/ygpa-z7cr/columns.json
+    - https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Violations/wvxf-dwi5/about_data
+    - https://data.cityofnewyork.us/api/views/wvxf-dwi5/columns.json
+  primary_event_timestamp_column: ReceivedDate (complaints) / ApprovedDate (violations)
+  update_cadence_documentation: Public NYC HPD open data is available through NYC Open Data and is batched daily in the benchmark on the documented event timestamps for the paired complaints and violations tables.
+  batch_unit: daily
+  portal_workflow:
+    - Open the official HPD open-data landing page and both NYC Open Data dataset pages for complaints and violations.
+    - Export the full official complaints CSV extract for the frozen benchmark window and save it using the exact expected filename hpd_complaints_{snapshot_id}.csv.
+    - Export the full official violations CSV extract for the frozen benchmark window and save it using the exact expected filename hpd_violations_{snapshot_id}.csv.
+    - Save the matching columns.json schema exports for both datasets alongside the snapshot manifests.
+    - Do not prefilter to hand-picked complaint classes, boroughs, or violation subsets before archival.
+  raw_assets:
+    - asset_id: hpd_complaints_snapshot
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Complaints-and-Problems/ygpa-z7cr/about_data
+      local_name_template: hpd_complaints_{snapshot_id}.csv
+      manual_source_name_template: hpd_complaints_{snapshot_id}.csv
+      description: Frozen full official CSV snapshot exported from the NYC HPD Housing Maintenance Code Complaints and Problems dataset.
+    - asset_id: hpd_violations_snapshot
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Violations/wvxf-dwi5/about_data
+      local_name_template: hpd_violations_{snapshot_id}.csv
+      manual_source_name_template: hpd_violations_{snapshot_id}.csv
+      description: Frozen full official CSV snapshot exported from the NYC HPD Housing Maintenance Code Violations dataset.
+  support_assets: []

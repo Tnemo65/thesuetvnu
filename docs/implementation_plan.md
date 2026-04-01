@@ -28,13 +28,13 @@ Quy ước audit:
 
 ### 0.1 Benchmark constants
 
-- [ ] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
-  - [ ] `6` core domains
-  - [ ] `2` external validation domains
+- [x] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
+  - [x] `6` core domains
+  - [x] `2` external validation domains
   - [x] `1` BTS audit-backed supplementary appendix
   - [x] `5` fault families
   - [x] `5` locked baselines
-  - [ ] `6` public-code reference detectors
+  - [x] `6` public-code reference detectors
   - [x] `8` primary metrics
   - [x] `5` seeds per condition
   - [x] `2` durations
@@ -50,19 +50,19 @@ Quy ước audit:
 
 ### 0.2 Run matrix and release gate
 
-- [ ] Khóa run matrix:
-  - [ ] `NYC TLC`: `150` dirty runs + `1` clean run
-  - [ ] `BTS On-Time`: `150` dirty runs + `1` clean run
-  - [ ] `Chicago Food`: `120` dirty runs + `1` clean run
-  - [ ] `NYC Parking Violations`: `120` dirty runs + `1` clean run
-  - [ ] `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean run
-  - [ ] `Chicago Building Permits`: `120` dirty runs + `1` clean run
-  - [ ] `786` total benchmark runs
-  - [ ] `3930` detector executions cho `5` locked baselines
-  - [ ] `4716` detector executions cho `6` public-code reference detectors
-  - [ ] `8646` detector executions cho full `11`-detector empirical comparison release
-- [ ] Chuyển paper-scale release gate thành checklist machine-checkable.
-- [ ] Chuyển artifact requirements thành checklist machine-checkable.
+- [x] Khóa run matrix:
+  - [x] `NYC TLC`: `150` dirty runs + `1` clean run
+  - [x] `BTS On-Time`: `150` dirty runs + `1` clean run
+  - [x] `Chicago Food`: `120` dirty runs + `1` clean run
+  - [x] `NYC Parking Violations`: `120` dirty runs + `1` clean run
+  - [x] `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean run
+  - [x] `Chicago Building Permits`: `120` dirty runs + `1` clean run
+  - [x] `786` total benchmark runs
+  - [x] `3930` detector executions cho `5` locked baselines
+  - [x] `4716` detector executions cho `6` public-code reference detectors
+  - [x] `8646` detector executions cho full `11`-detector empirical comparison release
+- [x] Chuyển paper-scale release gate thành checklist machine-checkable.
+- [x] Chuyển artifact requirements thành checklist machine-checkable.
 
 ### 0.3 Contracts and schemas
 
@@ -106,40 +106,40 @@ Quy ước audit:
 
 ### 0.4 Repo-doc sync audit
 
-- [ ] Audit `machine-readable benchmark constants` against `docs/documentation.md`:
-  - [ ] `configs/benchmark/constants.yaml`
-  - [ ] `src/dqbench/contracts/benchmark.py`
-- [ ] Audit `machine-readable release gate` against `docs/documentation.md`:
-  - [ ] `configs/benchmark/release_gate.yaml`
-  - [ ] `configs/benchmark/artifact_requirements.yaml`
-- [ ] Audit acquisition/setup surface against locked dataset scope:
-  - [ ] `configs/acquisition/*.yaml`
-  - [ ] `configs/datasets/*.yaml`
-  - [ ] `scripts/download_snapshots.py`
-  - [ ] `src/dqbench/data/acquisition.py`
-- [ ] Audit detector/config surface against locked baseline and reference-detector scope:
-  - [ ] `configs/detectors/*.yaml`
-  - [ ] `src/dqbench/baselines/*.py`
-  - [ ] `pyproject.toml`
-- [ ] Audit orchestration and evaluation code against locked protocol:
-  - [ ] `src/dqbench/orchestration/run_experiment.py`
-  - [ ] `src/dqbench/evaluation/*.py`
-  - [ ] `src/dqbench/stats/*.py`
-- [ ] Audit tests against locked scope and release gate:
-  - [ ] `tests/contracts/*.py`
-  - [ ] `tests/orchestration/*.py`
-  - [ ] `tests/evaluation/*.py`
-  - [ ] `tests/injection/*.py`
-- [ ] Với mỗi mismatch giữa docs và repo:
-  - [ ] classify as `docs wrong`, `code/config wrong`, hoặc `both stale`
-  - [ ] fix within the same patch when benchmark semantics would otherwise drift
-  - [ ] fail loudly instead of keeping parallel truths
+- [x] Audit `machine-readable benchmark constants` against `docs/documentation.md`:
+  - [x] `configs/benchmark/constants.yaml`
+  - [x] `src/dqbench/contracts/benchmark.py`
+- [x] Audit `machine-readable release gate` against `docs/documentation.md`:
+  - [x] `configs/benchmark/release_gate.yaml`
+  - [x] `configs/benchmark/artifact_requirements.yaml`
+- [x] Audit acquisition/setup surface against locked dataset scope:
+  - [x] `configs/acquisition/*.yaml`
+  - [x] `configs/datasets/*.yaml`
+  - [x] `scripts/download_snapshots.py`
+  - [x] `src/dqbench/data/acquisition.py`
+- [x] Audit detector/config surface against locked baseline and reference-detector scope:
+  - [x] `configs/detectors/*.yaml`
+  - [x] `src/dqbench/baselines/*.py`
+  - [x] `pyproject.toml`
+- [x] Audit orchestration and evaluation code against locked protocol:
+  - [x] `src/dqbench/orchestration/run_experiment.py`
+  - [x] `src/dqbench/evaluation/*.py`
+  - [x] `src/dqbench/stats/*.py`
+- [x] Audit tests against locked scope and release gate:
+  - [x] `tests/contracts/*.py`
+  - [x] `tests/orchestration/*.py`
+  - [x] `tests/evaluation/*.py`
+  - [x] `tests/injection/*.py`
+- [x] Với mỗi mismatch giữa docs và repo:
+  - [x] classify as `docs wrong`, `code/config wrong`, hoặc `both stale`
+  - [x] fix within the same patch when benchmark semantics would otherwise drift
+  - [x] fail loudly instead of keeping parallel truths
 
 ### Deliverables
 
-- [ ] repo-doc sync audit report
-- [ ] synchronized machine-readable constants
-- [ ] synchronized release-gate config
+- [x] repo-doc sync audit report
+- [x] synchronized machine-readable constants
+- [x] synchronized release-gate config
 
 ## Phase 1. Dataset Acquisition and Snapshot Freeze
 
@@ -149,14 +149,14 @@ Quy ước audit:
   - [x] `NYC TLC`
   - [x] `BTS On-Time`
   - [x] `Chicago Food`
-  - [ ] `NYC Parking Violations`
-  - [ ] `NYC HPD Housing Complaints and Violations`
-  - [ ] `Chicago Building Permits`
+  - [x] `NYC Parking Violations`
+  - [x] `NYC HPD Housing Complaints and Violations`
+  - [x] `Chicago Building Permits`
   - [x] `NYC 311`
-  - [ ] `Austin 311`
+  - [x] `Austin 311`
   - [x] `FAA OPSNET` supplementary extract
-- [ ] Mỗi workflow phải bám documented public URL hoặc portal workflow.
-- [ ] Mỗi workflow phải cho phép freeze snapshot reproducibly.
+- [x] Mỗi workflow phải bám documented public URL hoặc portal workflow.
+- [x] Mỗi workflow phải cho phép freeze snapshot reproducibly.
 
 ### 1.2 Raw snapshot manifests
 
