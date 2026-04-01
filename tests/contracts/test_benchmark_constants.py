@@ -6,6 +6,8 @@ from dqbench.contracts.benchmark import (
     CORE_DOMAIN_IDS,
     EXTERNAL_VALIDATION_DOMAIN_IDS,
     FK_BREAK_EXTENSION_DOMAIN_IDS,
+    LOCKED_BASELINE_DETECTORS,
+    OPTIONAL_REFERENCE_DETECTORS,
     PRIMARY_CALIBRATION_POLICY,
     PRIMARY_LEADERBOARD_FAULT_FAMILIES,
     PRIMARY_METRICS,
@@ -13,7 +15,6 @@ from dqbench.contracts.benchmark import (
     SEEDS_PER_CONDITION,
     SUPPLEMENTARY_APPENDIX_IDS,
     VALID_CALIBRATIONS,
-    VALID_DETECTORS,
     VALID_DURATIONS,
     VALID_FAULT_FAMILIES,
     VALID_SEVERITIES,
@@ -31,7 +32,8 @@ def test_benchmark_constants_manifest_matches_locked_python_constants():
 
     assert tuple(benchmark["fault_families"]) == VALID_FAULT_FAMILIES
     assert tuple(benchmark["primary_leaderboard_fault_families"]) == PRIMARY_LEADERBOARD_FAULT_FAMILIES
-    assert tuple(benchmark["detectors"]) == VALID_DETECTORS
+    assert tuple(benchmark["detectors"]["locked_baselines"]) == LOCKED_BASELINE_DETECTORS
+    assert tuple(item["id"] for item in benchmark["detectors"]["optional_reference"]) == OPTIONAL_REFERENCE_DETECTORS
     assert tuple(benchmark["primary_metrics"]) == PRIMARY_METRICS
     assert tuple(benchmark["condition_axes"]["severities"]) == VALID_SEVERITIES
     assert tuple(benchmark["condition_axes"]["durations"]) == VALID_DURATIONS
@@ -53,4 +55,4 @@ def test_run_matrix_is_locked_to_spec_counts():
     assert RUN_MATRIX["fk_break_extension_conditions"] == 60
     assert RUN_MATRIX["clean_evaluation_runs"] == 3
     assert RUN_MATRIX["total_benchmark_runs"] == total_runs == 423
-    assert RUN_MATRIX["locked_baseline_detector_executions"] == total_runs * len(VALID_DETECTORS) == 2115
+    assert RUN_MATRIX["locked_baseline_detector_executions"] == total_runs * len(LOCKED_BASELINE_DETECTORS) == 2115

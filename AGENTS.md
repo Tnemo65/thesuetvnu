@@ -59,6 +59,7 @@ The project is designed as a controlled comparison of detector families under a 
 - fixed alert matching rules
 - fixed metrics
 - fixed baseline set
+- fixed transparent-injection, audited-clean, and external-validation evidence policy
 - fixed artifact and reproducibility requirements
 
 The scientific purpose is to answer:
@@ -66,6 +67,7 @@ The scientific purpose is to answer:
 1. which `profile-based` detector families are strongest for which benchmarked data-quality failure modes
 2. what trade-offs exist across recall, precision, delay, localization, duplicate burden, clean-data false positives, and runtime
 3. how stable rankings remain across the included operational domains when the protocol is held fixed
+4. how well rankings and thresholds transfer from the injected matrix to untouched clean data and the fixed external-validation tracks
 
 This project is not:
 
@@ -147,9 +149,12 @@ Agents must preserve these benchmark truths:
 - Calibration uses the first `30%` of chronological batches with a minimum of `24`, then applies cleanliness screening.
 - Thresholds are derived from clean calibration scores only.
 - Dirty conditions are sampled only from the evaluation pool.
+- Injection is required to be transparent: operator-bank definitions, realized manifests, and side-effect reporting are part of the contract.
+- Each core domain includes an audited clean track for false-positive and threshold-portability interpretation.
 - The primary leaderboard is locked to `percentile_95`.
 - External validation tracks are reported separately from the primary leaderboard.
 - The `BTS` appendix uses weak labels and discrepancy windows. It is supplementary and must never be merged into the primary leaderboard.
+- Transfer analysis is supplementary but required for paper-scale claim boundaries.
 - Third-party detectors must obey the same public contract as built-in baselines.
 
 ## Project Glossary
@@ -220,12 +225,12 @@ Do not jump ahead and improvise. Follow the dependency order from `implementatio
 2. implement dataset acquisition and raw snapshot manifests
 3. canonicalize domains and publish monitored scope catalogs
 4. freeze calibration and evaluation split generation plus cleanliness reports
-5. implement fault injection and incident manifests
+5. implement fault injection, transparent manifests, and audited clean-track artifacts
 6. implement canonical batch profiling
 7. implement the five locked baselines
 8. implement alert normalization, matching, and metrics
 9. implement `NYC 311` external validation and the `BTS` supplementary appendix
-10. implement orchestration, aggregation, statistics, and release packaging
+10. implement orchestration, transfer analysis, aggregation, statistics, and release packaging
 
 If a phase depends on artifacts from an earlier phase, do not fake or hand-wave the earlier phase just to keep moving.
 
@@ -256,6 +261,7 @@ If a phase depends on artifacts from an earlier phase, do not fake or hand-wave 
 - Never merge `NYC 311` external validation or the `BTS` appendix into the primary leaderboard or inferential ranking tables.
 - Never treat weak labels as exact incident ground truth.
 - Never skip calibration cleanliness just because the acquisition pipeline is inconvenient.
+- Never omit audited clean-track protocol, injection manifests, or transfer-analysis outputs when the spec requires them.
 - Never omit monitored scope catalogs, manifests, checksums, schema validation, or hardware/runtime policy when the spec requires them.
 - Never report pilot-scale shortcuts as if they satisfy the full release gate.
 - Never use placeholders that look final. If something is partial, mark it clearly as partial.
@@ -315,6 +321,7 @@ Minimum reporting format for implementation updates:
 Agents should actively guard against these mistakes:
 
 - implementing a detector on raw tables because it feels easier than honoring the batch-profile interface
+- letting synthetic injection remain opaque or hand-picked while still claiming transparent generation
 - shipping a detector family under the correct name but with materially different behavior from the specified baseline
 - keeping legacy scaffold names or configs and treating them as proof of correctness
 - using only a subset of fault families but forgetting to label the run as partial
@@ -324,6 +331,7 @@ Agents should actively guard against these mistakes:
 - skipping calibration cleanliness, monitored scope catalogs, or support-table validation because they feel like metadata rather than benchmark logic
 - deriving thresholds from dirty or evaluation data instead of screened-clean calibration scores
 - using evaluation outcomes to tune hyperparameters while still claiming the locked protocol
+- reporting a detector as strong without considering audited clean-track behavior or external-transfer evidence
 - changing runtime measurement boundaries without updating the documented contract
 - publishing attractive figures while machine-readable manifests or schema reports are missing
 - substituting library defaults where the spec locks explicit hyperparameters or policies

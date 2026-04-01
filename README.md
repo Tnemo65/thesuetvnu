@@ -16,7 +16,19 @@ The locked benchmark design in [`documentation.md`](docs/documentation.md) defin
 - `5 locked baseline families`
 - `8 primary metrics`
 - `1` `BTS` audit-backed supplementary appendix
+- a transparent synthetic-injection protocol with published manifests and operator-bank metadata
+- an audited clean track per core domain for false-positive and threshold-portability interpretation
+- supplementary transfer analysis linking the injected benchmark to the external-validation tracks
 - `snapshot-first` reproducibility with frozen splits, seeds, manifests, and checksums
+
+This scaffold also ships optional `reference detector adapters` for `ECOD`, `COPOD`, and `Extended Isolation Forest`. They use public third-party code under the same batch-profile contract, but they are supplementary and do not change the locked five-baseline benchmark.
+
+Baseline quality in this project is intentionally interpreted through multiple evidence layers:
+
+- contract-valid execution on the canonical batch-profile interface
+- performance on the transparent injected benchmark matrix
+- false-positive behavior on the audited clean track
+- descriptive transfer behavior on `NYC 311` and the `BTS` audit-backed appendix
 
 ## Role Of This Directory
 
@@ -29,3 +41,23 @@ Phase 1 acquisition workflows live under [`configs/acquisition`](configs/acquisi
 - Use `plan` to resolve the expected raw/support files for a frozen snapshot without downloading anything.
 - Use `freeze` to download direct-url assets or stage portal-exported files into the snapshot-first workspace under `data/raw` and `data/external`, then materialize snapshot manifests.
 - Portal/manual workflows fail loudly unless you first stage the exact exported files with the expected names.
+
+## Optional Reference Detectors
+
+Install the supplementary reference detectors with:
+
+```bash
+python3 -m pip install -e '.[ml,reference_detectors]'
+```
+
+`Extended Isolation Forest` currently depends on the public `eif` package, which in local validation on `April 1, 2026` required `Cython<3` to build cleanly.
+
+Example runs:
+
+```bash
+python3 -m dqbench.orchestration.run_experiment --config configs/experiments/tlc_pilot_ecod.yaml
+python3 -m dqbench.orchestration.run_experiment --config configs/experiments/tlc_pilot_copod.yaml
+python3 -m dqbench.orchestration.run_experiment --config configs/experiments/tlc_pilot_eif.yaml
+```
+
+Reference notes for these detectors live in [`docs/external_reference_detectors.md`](docs/external_reference_detectors.md).

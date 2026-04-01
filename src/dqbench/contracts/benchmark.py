@@ -38,13 +38,19 @@ VALID_DURATIONS: Final[tuple[str, ...]] = ("one_window", "sustained")
 VALID_RUN_DURATIONS: Final[tuple[str, ...]] = VALID_DURATIONS + ("none",)
 SEEDS_PER_CONDITION: Final[int] = 5
 
-VALID_DETECTORS: Final[tuple[str, ...]] = (
+LOCKED_BASELINE_DETECTORS: Final[tuple[str, ...]] = (
     "calibration_threshold_lower_bound",
     "constraint_rule_baseline",
     "history_based_robust_profile",
     "ewma_cusum_sequential",
     "isolation_forest",
 )
+OPTIONAL_REFERENCE_DETECTORS: Final[tuple[str, ...]] = (
+    "ecod",
+    "copod",
+    "extended_isolation_forest",
+)
+VALID_DETECTORS: Final[tuple[str, ...]] = LOCKED_BASELINE_DETECTORS + OPTIONAL_REFERENCE_DETECTORS
 VALID_CALIBRATIONS: Final[tuple[str, ...]] = ("percentile_90", "percentile_95", "percentile_99")
 PRIMARY_CALIBRATION_POLICY: Final[str] = "percentile_95"
 

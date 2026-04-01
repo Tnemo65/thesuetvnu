@@ -1,0 +1,5 @@
+table_ref: tlc_trips
+ntrees: 256
+sample_size_cap: 256
+extension_level: full
+seed: 42

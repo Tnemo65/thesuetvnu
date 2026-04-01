@@ -6,7 +6,7 @@ from typing import Dict, List
 
 import pandas as pd
 
-from dqbench.baselines.base import DetectorAdapter
+from dqbench.baselines.base import DetectorAdapter, build_table_level_scores
 from dqbench.data.profiling import numeric_feature_columns
 
 try:
@@ -45,12 +45,8 @@ class IsolationForestBaseline(DetectorAdapter):
         if self.model is None:
             raise RuntimeError("fit must be called before score")
         raw_scores = -self.model.decision_function(eval_profiles[self.feature_columns])
-        return pd.DataFrame(
-            {
-                "batch_id": eval_profiles["batch_id"],
-                "score": raw_scores.astype(float),
-                "top_feature": ["table_anomaly"] * len(eval_profiles),
-                "scope_level": ["table"] * len(eval_profiles),
-                "scope_ref": [self.table_ref] * len(eval_profiles),
-            }
+        return build_table_level_scores(
+            eval_profiles,
+            raw_scores.astype(float),
+            table_ref=self.table_ref,
         )

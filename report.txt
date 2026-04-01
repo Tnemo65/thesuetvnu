@@ -1,0 +1,43 @@
+Đề tài của em là xây một benchmark để so sánh 5 baseline detectors cho bài toán data-quality alerting trên dữ liệu bảng theo batch.
+Năm baseline hiện tại là:
+Calibration Threshold Lower Bound: đây là mốc sàn nội bộ của benchmark, không phải để làm detector mạnh nhất mà để tạo một chuẩn tối thiểu minh bạch; nó dựa trên robust deviation với median và MAD, nên rất dễ giải thích và giúp kiểm tra xem một baseline phức tạp có thực sự vượt qua một chuẩn thống kê cơ bản hay không.
+Constraint-Rule Baseline: đại diện cho nhóm rule-based / expectation-based validation, là hướng rất phổ biến trong các hệ thống data quality thực tế; về mặt tham chiếu, nó gần với tinh thần của Deequ trong Schelter et al. (VLDB 2018) và TFX Data Validation trong Breck et al. (SysML 2019).
+History-Based Robust Profile Baseline: đại diện cho nhóm theo dõi profile theo lịch sử, tức so sánh batch hiện tại với các batch gần trước đó thay vì chỉ nhìn ngưỡng tĩnh; hướng này gần với anomaly detection trên historic data quality time series trong Deequ (Schelter et al., VLDB 2018) và monitoring data profiles trong TFX Data Validation (Breck et al., SysML 2019), nhưng baseline của em giữ ở dạng rolling robust deviation để dễ diễn giải và công bằng giữa các domain.
+EWMA-CUSUM Sequential Baseline: đại diện cho nhóm sequential change detection; EWMA phù hợp để bắt lệch nhỏ nhưng kéo dài, còn CUSUM phù hợp để tích lũy bằng chứng thay đổi theo thời gian; nền tảng học thuật kinh điển là Roberts (1959) cho EWMA và Page (1954) cho CUSUM.
+Isolation Forest Baseline: đại diện cho nhóm tree-based unsupervised anomaly detection; em dùng bản chuẩn của họ Isolation Forest theo Liu, Ting và Zhou (ICDM 2008; bản journal mở rộng TKDD 2012) vì đây là phương pháp canonical, phổ biến và tái lập được; thêm nữa, benchmark gần đây của Bouman, Bukhsh và Heskes (JMLR 2024) vẫn cho thấy họ isolation-forest rất cạnh tranh trên tabular anomaly detection, dù biến thể mạnh nhất ở đó là Extended Isolation Forest.
+Mỗi detector sẽ được chạy trên 3 domain/dataset chính là:
+NYC TLC: dữ liệu chuyến taxi vàng của New York, batch theo ngày; đây là dữ liệu vận hành công khai, có nhiều batch liên tiếp và có support table về taxi zone, nên phù hợp để test nhiều loại lỗi khác nhau.
+BTS On-Time: dữ liệu hiệu năng đúng giờ của các chuyến bay tại Mỹ, batch theo ngày; đây là dữ liệu vận hành lớn, có cấu trúc thời gian rõ và có support tables công khai, nên phù hợp để test cả detector tĩnh lẫn detector theo lịch sử.
+Chicago Food: dữ liệu kiểm tra an toàn thực phẩm của Chicago, batch theo tuần; domain này khác hẳn transportation, nên rất hữu ích để kiểm tra xem ranking detector có đổi khi đổi domain hay không.
+Về độ lớn, benchmark chỉ nhận snapshot nếu sau canonicalization còn ít nhất 80 scheduled batches, có tối thiểu 24 batch sạch cho calibration và 40 batch cho evaluation; vì vậy mỗi dataset chỉ được đưa vào leaderboard khi đã đủ dài để đánh giá nghiêm túc.
+Mục tiêu là kiểm tra xem khi đổi domain thì hiệu năng và thứ hạng của các detector có thay đổi hay không, tức là đánh giá độ ổn định của ranking giữa các môi trường dữ liệu khác nhau.
+Với mỗi dataset, dữ liệu sẽ được chuẩn hóa thành chuỗi batch theo thời gian.
+Sau đó chia dữ liệu thành 2 phần:
+một phần sạch ở đầu chuỗi để học hành vi bình thường và tìm threshold
+phần còn lại là evaluation pool để tạo các tình huống kiểm thử
+Threshold chỉ được fit từ clean calibration scores, và primary leaderboard khóa ở percentile_95.
+Trên phần evaluation, em sẽ inject lỗi có kiểm soát vào từng run. Mỗi dirty run chỉ chứa 1 incident thuộc 1 fault family để có ground truth rõ ràng. Sau đó detector tiếp tục chạy và mình đánh giá xem nó có:
+phát hiện đúng incident hay không
+phát hiện có đúng thời điểm hay không
+bị trễ bao nhiêu
+định vị đúng scope lỗi hay không
+tạo thừa bao nhiêu alert
+có báo động giả trên data sạch hay không
+Việc benchmarker tự inject lỗi đúng là có nguy cơ thiên vị, nên để công bằng em khóa protocol trước khi chạy:
+mọi detector cùng nhận đúng một canonical batch-profile interface
+mọi detector dùng cùng calibration split, cùng evaluation pool và cùng threshold policy
+fault family, severity, duration, seed và matching rule đều được cố định trước
+cùng một tập dirty conditions được chạy cho tất cả detector
+detector không được truy cập hidden labels, benchmark-private metadata hay side channel ngoài contract công khai
+ngoài recall còn phải báo precision, delay, localization, false positive, duplicate burden và runtime, nên detector không thể chỉ tối ưu cho một kiểu lỗi duy nhất
+ngoài benchmark inject lỗi, còn có external validation tách riêng để kiểm tra tính phù hợp ngoài dữ liệu tự tạo
+Đầu ra cuối cùng là các bảng so sánh theo nhiều metric như:
+recall
+precision
+F1
+delay
+localization
+false positive
+runtime
+Từ đó em tạo bảng ranking/leaderboard cho các baseline trên từng dataset, rồi đối chiếu giữa 3 domain để xem detector nào ổn định hơn khi thay đổi domain.
+Mục tiêu cuối cùng của dự án là tạo ra một benchmark artifact tái lập được, gồm frozen snapshots, split manifests, injection manifests, alerts, incident-level metrics và leaderboard theo từng domain, để so sánh công bằng và minh bạch các baseline detector.

@@ -2,24 +2,26 @@
 
 ## 1. Benchmark Definition
 
-`dq-alert-benchmark` is a reproducible benchmark for profile-based, batch-based tabular data-quality alerting on public datasets. The benchmark uses controlled fault injection to generate incident-level ground truth and evaluates detector families with incident-aware, delay-aware, localization-aware, false-positive-aware, and runtime-aware metrics.
+`dq-alert-benchmark` is a reproducible benchmark for profile-based, batch-based tabular data-quality alerting on public datasets. The benchmark uses a transparent synthetic-injection track to generate incident-level ground truth, an audited clean track to evaluate false positives on untouched data, and separate external-validation tracks to evaluate transfer beyond the injected matrix. Detector families are evaluated with incident-aware, delay-aware, localization-aware, false-positive-aware, runtime-aware, and transfer-aware reporting.
 
-The benchmark is defined by four fixed pillars:
+The benchmark is defined by five fixed pillars:
 
 1. a locked protocol for calibration, injection, alerting, and matching
 2. a multi-domain benchmark matrix on public datasets
 3. a fixed baseline set with explicit provenance levels
-4. a reproducible artifact with frozen snapshots, seeds, splits, and outputs
+4. a multi-track evidence policy combining transparent injection, audited clean evaluation, and separate external validation
+5. a reproducible artifact with frozen snapshots, seeds, splits, and outputs
 
 The benchmark is a controlled comparison of detector families that can operate on the canonical benchmark profile interface. It is not a universal benchmark for all data-quality systems, all domain semantics, or all alerting settings.
 
 ## 2. Scientific Questions
 
-The benchmark is designed to answer three questions:
+The benchmark is designed to answer four questions:
 
 1. Which profile-based detector families are strongest for which benchmarked data-quality failure modes?
 2. How do detection quality, detection delay, localization quality, false positives on clean data, duplicate alert burden, and runtime trade off?
 3. How stable are detector rankings across the included operational domains when the evaluation protocol is held fixed?
+4. How well do rankings and thresholds transfer from the injected benchmark matrix to untouched clean data and the fixed external-validation tracks?
 
 ## 3. Fixed Scope
 
@@ -33,6 +35,7 @@ The benchmark locks the following scope decisions:
 - Each dirty run contains exactly `one` incident from exactly `one` fault family.
 - Evaluation matches alerts to incidents and reports multiple primary metrics rather than a single composite score.
 - The primary benchmark uses `three` core domains and `one` external validation case study.
+- The benchmark separates `transparent synthetic`, `audited clean`, and `external validation` evidence rather than treating any one track as sufficient on its own.
 
 The benchmark does not study:
 
@@ -236,13 +239,27 @@ Severity bands are benchmark-control constructs on the designated target feature
 
 Every paper-scale release must publish, for every `domain x fault_family` pair:
 
+- the operator bank and operator identifiers admissible for that pair
 - the injection operator family
 - the parameter ranges and seed semantics
 - the edit-budget policy or batch-manipulation policy
 - plausibility guards on non-target features
 - the target-scope selection policy from the monitored scope catalog
 
-A condition is admissible only if the realized dirty target feature falls inside the locked severity band and the release records the realized pre-injection and post-injection target-feature values.
+A condition is admissible only if:
+
+- the target batches are sampled randomly from the evaluation pool under the published target-scope sampling frame
+- the realized dirty target feature falls inside the locked severity band
+- the release records the realized pre-injection and post-injection target-feature values
+- the release records the realized non-target side effects and any acceptance or rejection rule used during injection generation
+
+The paper-scale artifact must publish machine-readable injection manifests and realized-severity manifests that let a third party reconstruct:
+
+- the seed used for each accepted condition
+- the selected operator identifier
+- the selected target scope and target batches
+- the realized target-feature shift
+- the realized non-target side-effect summary
 
 For `freshness_lag`, the release must explicitly state whether lag is implemented as delayed arrival, omitted batch materialization, or both.
 
@@ -274,6 +291,20 @@ If fewer than `24` screened-clean calibration batches remain after this procedur
 ### 9.2 Threshold Sensitivity Appendix
 
 The primary leaderboard remains locked to the `percentile_95` calibration policy. Each paper-scale release must additionally publish a threshold-sensitivity appendix over a small fixed operating-point grid such as `p90`, `p95`, and `p99`, or an equivalent fixed clean-false-positive sweep. This appendix is supplementary and does not alter the primary leaderboard.
+
+### 9.3 Audited Clean Track
+
+Per core domain, the benchmark includes one untouched clean evaluation copy used for clean-run false-positive measurement. This clean track is part of the benchmark contract rather than an optional convenience slice.
+
+Each paper-scale release must additionally publish an audited clean-track protocol that records:
+
+- the untouched clean evaluation range used for the domain
+- the deterministic rule used to keep the clean track disjoint from injected conditions
+- the predeclared random audit sampling rule over clean batches or monitored scopes
+- any official corroboration source or manual-review procedure used to assess sampled clean batches
+- the uncertainty or exclusion policy applied when a sampled clean batch cannot be confidently characterized
+
+The audited clean track is used to support `clean_run_fp_batch`, `clean_run_fp_alert`, and threshold-portability interpretation. It does not create extra incident-recall labels.
 
 Per core domain, the release matrix contains:
 
@@ -380,6 +411,12 @@ The shared calibration policy for the primary benchmark is:
 - The history-based baseline is a representative family baseline grounded in prior monitoring literature and is not claimed as author code from any single paper.
 - The `EWMA-CUSUM` baseline is a standard sequential-process-control baseline and is not claimed as any vendor implementation.
 - The Isolation Forest baseline is a standard implementation baseline because it uses the public `scikit-learn` implementation.
+- Baseline quality claims in this benchmark are made only after considering four evidence layers together:
+  - contract-valid detector execution on the locked batch-profile interface
+  - performance on the transparent injected benchmark matrix
+  - false-positive behavior on the audited clean track
+  - descriptive transfer behavior on the external-validation tracks
+- No baseline or reference detector is claimed to be universally best outside these benchmark conditions.
 
 ### 12.4 Third-Party Detector Contract
 
@@ -389,6 +426,14 @@ Third-party detectors are admissible to the benchmark only if they obey the same
 - the detector does not access hidden incident labels, unreleased snapshots, or benchmark-private metadata
 - the detector emits alerts in the canonical alert schema
 - the detector publishes a deterministic configuration manifest and software version
+
+The reproducible artifact may additionally ship supplementary `reference detector adapters` that call public third-party code under this same contract. These adapters are supplementary: they do not change the `5` locked baseline families, the locked run matrix, or the paper-scale release gate. The current scaffolded supplementary reference set is:
+
+- `ECOD`
+- `COPOD`
+- `Extended Isolation Forest`
+
+Their provenance, source repositories, paper links, and integration notes are tracked in [`external_reference_detectors.md`](external_reference_detectors.md).
 
 ### 12.5 Locked Scoring Definitions
 
@@ -565,6 +610,18 @@ For each primary metric on the shared-core leaderboard, the release reports:
 
 The `fk_break` extension is reported with the same per-metric inferential protocol on the qualifying extension conditions only. External validation results are reported descriptively and are not merged into the primary inferential ranking table.
 
+### 14.1 Transfer Analysis
+
+Each paper-scale release must additionally publish a supplementary transfer-analysis section. This section does not alter the primary leaderboard, but it is required to support claim boundaries about benchmark-to-reality transfer.
+
+The transfer-analysis section must report:
+
+- synthetic-to-validation rank correlation using `Spearman` and `Kendall` summaries across detectors on matched descriptive metrics where such comparison is meaningful
+- domain-transfer summaries showing how detector rankings shift when one core domain is held out from qualitative model selection narratives
+- threshold-portability summaries showing how thresholds fit on the clean calibration prefix behave on the untouched clean track and the external-validation tracks
+
+Transfer analyses are descriptive robustness checks. They do not override the locked primary leaderboard or convert weak-label validation into exact-ground-truth inference.
+
 ## 15. Artifact Policy
 
 ### 15.1 Artifact Goal
@@ -596,6 +653,7 @@ A paper-scale artifact release contains:
 - monitored scope catalogs
 - injection manifests and realized-severity manifests
 - calibration cleanliness reports
+- audited clean-track protocol and audit outputs
 - strict `Pydantic` models for configs, manifests, and non-tabular benchmark outputs
 - `Pandera` schemas for canonical dataframes, batch profiles, alerts, incidents, matches, and metrics
 - manifests and checksums
@@ -607,6 +665,7 @@ A paper-scale artifact release contains:
 - machine-readable schema-validation reports
 - output schemas for alerts, incidents, matches, and metrics
 - aggregated benchmark tables used in the paper
+- transfer-analysis tables and summaries
 
 ### 15.4 Raw Data Policy
 
@@ -640,6 +699,8 @@ Each paper-scale release must additionally materialize:
 - `fk_break` extension tables
 - external validation case-study outputs
 - `BTS` audit-backed supplementary validation outputs
+- audited clean-track outputs
+- transfer-analysis outputs
 
 ## 16. Paper-Scale Release Gate
 
@@ -654,10 +715,12 @@ A release qualifies as `paper-scale` only if all of the following hold:
 - all eight primary metrics are reported for every benchmark condition
 - clean-run false-positive evaluation is included
 - monitored scope catalogs, injection manifests, and calibration cleanliness reports are published
+- the audited clean track is published with its protocol and audit outputs
 - runtime boundary and hardware policy are published
 - threshold-sensitivity appendix is published
 - inferential statistics are reported on the shared-core leaderboard
 - the external validation track is published with both descriptive reports
 - the `BTS` audit-backed supplementary validation appendix is published
+- transfer-analysis outputs are published
 - all released configs and benchmark outputs pass strict schema validation
 - the reproducible artifact is published with manifests, checksums, frozen splits, seeds, executable configs, aggregate tables, and detector-submission validation utilities

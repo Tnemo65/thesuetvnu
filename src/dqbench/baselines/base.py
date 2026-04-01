@@ -25,6 +25,24 @@ def infer_scope(feature_name: str, default_table_ref: str) -> Dict[str, str]:
     return {"scope_level": "table", "scope_ref": default_table_ref}
 
 
+def build_table_level_scores(
+    eval_profiles: pd.DataFrame,
+    raw_scores: List[float] | pd.Series,
+    *,
+    table_ref: str,
+    top_feature: str = "table_anomaly",
+) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "batch_id": eval_profiles["batch_id"],
+            "score": pd.Series(raw_scores, index=eval_profiles.index, dtype=float),
+            "top_feature": [top_feature] * len(eval_profiles),
+            "scope_level": ["table"] * len(eval_profiles),
+            "scope_ref": [table_ref] * len(eval_profiles),
+        }
+    )
+
+
 class DetectorAdapter(ABC):
     name = "base"
 

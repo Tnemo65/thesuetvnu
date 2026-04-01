@@ -27,6 +27,11 @@ dependencies = [
 ml = [
   "scikit-learn>=1.1",
 ]
+reference_detectors = [
+  "pyod>=2.0.7",
+  "Cython<3",
+  "eif>=2.0.2",
+]
 viz = [
   "matplotlib>=3.5",
   "seaborn>=0.12",
@@ -49,3 +54,6 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+
+[tool.uv.extra-build-dependencies]
+eif = ["numpy", "Cython<3"]

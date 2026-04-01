@@ -1,0 +1,15 @@
+run_spec:
+  domain: tlc
+  snapshot_id: synthetic_2025q1
+  batch_unit: daily
+  fault_family: null_spike
+  severity: medium
+  duration: one_window
+  seed: 7
+  detector: extended_isolation_forest
+  calibration_policy: percentile_95
+dataset_config_path: configs/datasets/tlc.yaml
+fault_config_path: configs/faults/null_spike.yaml
+detector_config_path: configs/detectors/extended_isolation_forest.yaml
+calibration_config_path: configs/calibrations/defaults.yaml
+output_dir: outputs/runs/tlc_pilot_eif

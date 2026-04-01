@@ -13,8 +13,11 @@ import pandas as pd
 
 from dqbench.baselines.base import build_run_id
 from dqbench.baselines.calibration_threshold_lower_bound import CalibrationThresholdLowerBoundBaseline
+from dqbench.baselines.copod import COPODBaseline
 from dqbench.baselines.constraint_rule_baseline import ConstraintRuleBaseline
+from dqbench.baselines.ecod import ECODBaseline
 from dqbench.baselines.ewma_cusum_sequential import EWMACUSUMSequentialBaseline
+from dqbench.baselines.extended_isolation_forest import ExtendedIsolationForestBaseline
 from dqbench.baselines.history_based_robust_profile import HistoryBasedRobustProfileBaseline
 from dqbench.baselines.isolation_forest import IsolationForestBaseline
 from dqbench.config import load_run_spec, load_yaml
@@ -44,6 +47,9 @@ DETECTORS = {
     "history_based_robust_profile": HistoryBasedRobustProfileBaseline,
     "ewma_cusum_sequential": EWMACUSUMSequentialBaseline,
     "isolation_forest": IsolationForestBaseline,
+    "ecod": ECODBaseline,
+    "copod": COPODBaseline,
+    "extended_isolation_forest": ExtendedIsolationForestBaseline,
 }
 
 

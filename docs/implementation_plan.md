@@ -204,11 +204,25 @@ Quy ước audit:
 - [ ] Freeze evaluation definitions theo snapshot.
 - [ ] Xuất `calibration_cleanliness_report`.
 
+### 3.4 Audited clean track
+
+- [ ] Freeze one untouched clean evaluation copy cho mỗi core domain.
+- [ ] Publish deterministic rule giữ clean track disjoint khỏi injected conditions.
+- [ ] Define predeclared random audit sampling rule trên clean batches hoặc monitored scopes.
+- [ ] Materialize clean-track audit protocol, gồm:
+  - [ ] untouched clean evaluation range
+  - [ ] audit sampling rule
+  - [ ] official corroboration source hoặc manual-review procedure
+  - [ ] uncertainty / exclusion policy
+- [ ] Materialize audited clean-track outputs cho `clean_run_fp_batch`, `clean_run_fp_alert`, và threshold-portability reading.
+
 ### Deliverables
 
 - [ ] frozen calibration split definitions
 - [ ] frozen evaluation split definitions
 - [ ] calibration cleanliness reports
+- [ ] audited clean-track protocol
+- [ ] audited clean-track outputs
 
 ## Phase 4. Fault Injection and Ground Truth
 
@@ -223,12 +237,14 @@ Quy ước audit:
 ### 4.2 Injection contracts
 
 - [ ] Với mỗi `domain x fault_family`, publish:
+  - [ ] operator bank và operator identifiers
   - [ ] injection operator family
   - [ ] parameter ranges
   - [ ] seed semantics
   - [ ] edit-budget or batch-manipulation policy
   - [ ] plausibility guards on non-target features
   - [ ] target-scope selection policy
+- [ ] Target batches phải được sample ngẫu nhiên từ evaluation pool, không từ calibration prefix.
 - [ ] Với `freshness_lag`, state rõ implementation là delayed arrival, omitted batch materialization, hay cả hai.
 
 ### 4.3 Severity and condition validity
@@ -257,6 +273,13 @@ Quy ước audit:
   - [x] detection window start batch
   - [x] detection window end batch
 - [ ] Materialize injection manifests với realized pre/post values.
+- [ ] Materialize selected operator id, target batches, realized non-target side effects, và acceptance/rejection reason.
+
+### 4.5 Injection robustness
+
+- [ ] Nếu một fault family có nhiều operators, materialize per-operator coverage summary.
+- [ ] Publish supplementary leave-one-operator-out robustness summary khi operator bank có nhiều operators.
+- [ ] Publish triviality audit để phát hiện operators quá dễ hoặc quá lộ.
 
 ### Deliverables
 
@@ -264,6 +287,8 @@ Quy ước audit:
 - [ ] injection manifests
 - [x] incident records
 - [ ] severity validation reports
+- [ ] operator-bank manifest
+- [ ] injection robustness appendix
 
 ## Phase 5. Batch Profiling
 
@@ -319,9 +344,18 @@ Quy ước audit:
 - [x] State-bearing baselines chỉ được initialize từ clean calibration prefix.
 - [x] Mỗi baseline emit tối đa `1 alert / batch`.
 
+### 6.4 Supplementary reference detectors
+
+- [x] Add optional `ECOD` adapter on the same canonical batch-profile interface.
+- [x] Add optional `COPOD` adapter on the same canonical batch-profile interface.
+- [x] Add optional `Extended Isolation Forest` adapter on the same canonical batch-profile interface.
+- [x] Keep supplementary reference detectors outside the `5` locked baseline counts and release gate.
+- [x] Publish source-repo links, paper links, and integration notes for each supplementary reference detector.
+
 ### Deliverables
 
 - [x] `5` baseline implementations
+- [x] supplementary reference detector adapters
 - [x] detector config manifests
 - [ ] detector-level smoke tests
 
@@ -388,6 +422,7 @@ Quy ước audit:
 - [ ] Freeze one `12-month` `NYC 311` snapshot.
 - [ ] Implement `location-quality` case study.
 - [ ] Implement `service-process timeliness` case study.
+- [ ] Implement descriptive hit-rate / lead-lag summary khi weak labels hoặc issue windows khả dụng.
 - [ ] Keep results tách khỏi primary leaderboard và inferential ranking tables.
 
 ### 8.2 BTS audit-backed supplementary appendix
@@ -406,6 +441,7 @@ Quy ước audit:
 - [ ] `NYC 311` external validation outputs
 - [ ] `BTS` appendix outputs
 - [ ] discrepancy-window manifest
+- [ ] external-validation descriptive summary tables
 
 ## Phase 9. Experiment Orchestration
 
@@ -457,11 +493,24 @@ Quy ước audit:
 - [ ] Report `fk_break` extension statistics riêng.
 - [ ] Không merge external validation tracks vào inferential ranking table.
 
+### 10.3 Transfer analysis
+
+- [ ] Compute synthetic-to-validation rank correlation with:
+  - [ ] `Spearman`
+  - [ ] `Kendall`
+- [ ] Publish domain-transfer summary cho detector ranking narratives across the `3` core domains.
+- [ ] Publish threshold-portability summary trên:
+  - [ ] audited clean track
+  - [ ] `NYC 311` external validation
+  - [ ] `BTS` supplementary appendix
+- [ ] Keep transfer analysis supplementary, không override primary leaderboard.
+
 ### Deliverables
 
 - [ ] statistical result tables
 - [ ] seed dispersion tables
 - [ ] inferential summary tables
+- [ ] transfer-analysis tables
 
 ## Phase 11. Artifact Packaging and Release
 
@@ -488,6 +537,7 @@ Quy ước audit:
   - [ ] monitored scope catalogs
   - [ ] injection manifests and realized-severity manifests
   - [ ] calibration cleanliness reports
+  - [ ] audited clean-track protocol and audit outputs
   - [ ] strict `Pydantic` models
   - [ ] `Pandera` schemas
   - [ ] manifests and checksums
@@ -501,6 +551,7 @@ Quy ước audit:
   - [ ] machine-readable schema-validation reports
   - [ ] canonical output schemas
   - [ ] aggregate tables used in the paper
+  - [ ] transfer-analysis tables and summaries
 
 ### 11.3 Raw data policy
 
@@ -531,11 +582,13 @@ Quy ước audit:
 - [ ] Verify all `8` primary metrics reported cho mọi benchmark condition.
 - [ ] Verify clean-run false-positive evaluation included.
 - [ ] Verify monitored scope catalogs, injection manifests, calibration cleanliness reports published.
+- [ ] Verify audited clean-track protocol and outputs published.
 - [ ] Verify runtime boundary and hardware policy published.
 - [ ] Verify threshold-sensitivity appendix published.
 - [ ] Verify inferential statistics reported trên shared-core leaderboard.
 - [ ] Verify `NYC 311` external validation published.
 - [ ] Verify `BTS` audit-backed supplementary validation appendix published.
+- [ ] Verify transfer-analysis outputs published.
 - [ ] Verify all configs và benchmark outputs pass strict schema validation.
 - [ ] Verify artifact đủ cho third-party reproduction end-to-end.
 
@@ -565,6 +618,8 @@ Quy ước audit:
 - [ ] Mỗi fault family đạt đúng duration.
 - [ ] Mỗi dirty run giữ đúng one-incident contract.
 - [ ] Plausibility guards được kiểm và report.
+- [ ] Target batch selection only draws from evaluation pool.
+- [ ] Operator-bank metadata và realized side-effect manifests hợp lệ.
 
 ### Baseline tests
 
@@ -581,6 +636,8 @@ Quy ước audit:
 - [ ] Delay penalty logic đúng.
 - [ ] Zero-alert precision và zero-denominator `f1` đúng.
 - [ ] Weak-label metrics đúng định nghĩa.
+- [ ] Rank-transfer summaries đúng định nghĩa `Spearman/Kendall`.
+- [ ] Threshold-portability summaries đúng định nghĩa.
 
 ### Orchestration tests
 
@@ -593,6 +650,7 @@ Quy ước audit:
 
 - [ ] Full paper-scale gate pass mà không cần diễn giải thủ công.
 - [ ] Reproduction dry-run từ artifact pass với validator/tooling được ship kèm.
+- [ ] Audited clean-track outputs và transfer-analysis outputs được publish đầy đủ.
 
 ## Defaults and Locked Assumptions
 

@@ -31,11 +31,19 @@ benchmark:
     - duplicate_burst
     - freshness_lag
   detectors:
-    - calibration_threshold_lower_bound
-    - constraint_rule_baseline
-    - history_based_robust_profile
-    - ewma_cusum_sequential
-    - isolation_forest
+    locked_baselines:
+      - calibration_threshold_lower_bound
+      - constraint_rule_baseline
+      - history_based_robust_profile
+      - ewma_cusum_sequential
+      - isolation_forest
+    optional_reference:
+      - id: ecod
+        label: ECOD
+      - id: copod
+        label: COPOD
+      - id: extended_isolation_forest
+        label: Extended Isolation Forest
   primary_metrics:
     - incident_recall
     - incident_precision
