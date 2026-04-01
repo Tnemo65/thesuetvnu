@@ -157,6 +157,16 @@ Quy ước audit:
   - [x] `FAA OPSNET` supplementary extract
 - [x] Mỗi workflow phải bám documented public URL hoặc portal workflow.
 - [x] Mỗi workflow phải cho phép freeze snapshot reproducibly.
+- [ ] Verify data accessibility cho từng locked source:
+  - [ ] official source hiện vẫn reachable
+  - [ ] export/API workflow thực sự trả được raw files hoặc paged responses
+  - [ ] staged manual export names khớp expected templates
+  - [ ] source không đòi credential hoặc workflow private ngoài spec đã công bố
+- [ ] Materialize per-source acquisition accessibility report:
+  - [ ] reachable / unreachable status
+  - [ ] last verified access date
+  - [ ] retrieval mode actually exercised (`direct_url`, `manual_portal`, `Open311 query surface`, ...)
+  - [ ] exact blocker nếu source không access được
 
 ### 1.2 Raw snapshot manifests
 
@@ -168,6 +178,18 @@ Quy ước audit:
   - [ ] schema version reference
   - [ ] checksum for every raw file
 - [ ] Với support tables, materialize checksums riêng.
+- [ ] Verify raw snapshot usability ngay sau freeze:
+  - [ ] raw file mở đọc được bằng backend dự kiến
+  - [ ] schema / columns thực tế còn khớp public references ở mức đủ cho canonicalization
+  - [ ] primary event timestamp column thực sự tồn tại và parse được
+  - [ ] file không bị truncated, empty, password-protected, hay portal-export corruption
+  - [ ] snapshot đủ chứa contiguous official window theo spec
+- [ ] Materialize per-snapshot raw-data usability report:
+  - [ ] load success / failure
+  - [ ] detected columns
+  - [ ] timestamp parse success
+  - [ ] row count before canonicalization
+  - [ ] blocking schema drifts or extraction defects
 
 ### 1.3 Support tables and domain gate
 
@@ -198,11 +220,19 @@ Quy ước audit:
   - [ ] number of monitored table-scoped targets
   - [ ] number of monitored column-scoped targets
 - [ ] Dừng pipeline nếu domain không pass inclusion gate.
+- [ ] Dừng pipeline nếu data access được nhưng không usable cho canonicalization:
+  - [ ] missing required timestamp field
+  - [ ] missing required support table
+  - [ ] schema drift làm hỏng canonical fact-table mapping
+  - [ ] contiguous official window không materialize được
+  - [ ] row volume sau freeze không đủ để pass domain gate
 
 ### Deliverables
 
 - [ ] raw data snapshots
 - [ ] raw snapshot manifests
+- [ ] acquisition accessibility reports
+- [ ] raw-data usability reports
 - [ ] support-table manifests
 - [ ] domain inclusion gate reports
 
