@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Thin wrapper around the manifest CLI."""
+"""Thin wrapper around the acquisition CLI."""
 
-from dqbench.data.manifest import main
+from dqbench.data.acquisition import main
 
 
 if __name__ == "__main__":

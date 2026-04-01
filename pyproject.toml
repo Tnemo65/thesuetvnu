@@ -37,7 +37,8 @@ dev = [
 
 [project.scripts]
 dqbench-run-pilot = "dqbench.orchestration.run_experiment:main"
-dqbench-download-snapshots = "dqbench.data.manifest:main"
+dqbench-download-snapshots = "dqbench.data.acquisition:main"
+dqbench-write-snapshot-manifest = "dqbench.data.manifest:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -1,0 +1,41 @@
+acquisition_workflow:
+  dataset_id: bts
+  dataset_label: BTS On-Time
+  portal_page: https://www.transtats.bts.gov/PREZIP/
+  schema_version_reference: https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EGI&Yv0x=D
+  schema_references:
+    - https://www.transtats.bts.gov/releaseinfo.asp
+    - https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EGI&Yv0x=D
+  primary_event_timestamp_column: FlightDate
+  update_cadence_documentation: Public BTS On-Time releases are published through TranStats PREZIP; the benchmark batches them daily by FlightDate.
+  batch_unit: daily
+  portal_workflow:
+    - Open the BTS release information page and the PREZIP archive page to verify the public release workflow for On-Time data.
+    - Export or download the required monthly BTS On-Time zip files for the frozen snapshot window from the public PREZIP portal.
+    - Save each monthly raw file into the manual input directory using the exact expected name template bts_ontime_{year_month}.zip.
+    - Export the carrier lookup table from the public TranStats lookup workflow and save it as carrier_lookup.csv.
+    - Export the airport lookup table from the public TranStats lookup workflow and save it as airport_lookup.csv.
+  raw_assets:
+    - asset_id: bts_ontime
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://www.transtats.bts.gov/PREZIP/
+      local_name_template: bts_ontime_{year_month}.zip
+      manual_source_name_template: bts_ontime_{year_month}.zip
+      repeat_parameter: year_month
+      description: Monthly BTS On-Time raw zip exported from the public PREZIP portal.
+  support_assets:
+    - asset_id: carrier_lookup
+      file_role: support_table
+      acquisition_mode: manual_portal
+      source_reference: https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EGI&Yv0x=D
+      local_name_template: carrier_lookup.csv
+      manual_source_name_template: carrier_lookup.csv
+      description: Public carrier lookup table exported from the TranStats lookup workflow.
+    - asset_id: airport_lookup
+      file_role: support_table
+      acquisition_mode: manual_portal
+      source_reference: https://www.transtats.bts.gov/DatabaseInfo.asp?QO_VQ=EGI&Yv0x=D
+      local_name_template: airport_lookup.csv
+      manual_source_name_template: airport_lookup.csv
+      description: Public airport lookup table exported from the TranStats lookup workflow.

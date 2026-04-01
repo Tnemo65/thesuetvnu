@@ -1,0 +1,29 @@
+acquisition_workflow:
+  dataset_id: tlc
+  dataset_label: NYC TLC
+  portal_page: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+  schema_version_reference: https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
+  schema_references:
+    - https://www.nyc.gov/assets/tlc/downloads/pdf/trip_record_user_guide.pdf
+    - https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
+  primary_event_timestamp_column: tpep_pickup_datetime
+  update_cadence_documentation: Monthly public releases on the TLC Trip Record Data page with daily operational batch units in the benchmark.
+  batch_unit: daily
+  portal_workflow: []
+  raw_assets:
+    - asset_id: yellow_tripdata
+      file_role: raw_file
+      acquisition_mode: direct_url
+      source_reference: https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year_month}.parquet
+      local_name_template: yellow_tripdata_{year_month}.parquet
+      url_template: https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{year_month}.parquet
+      repeat_parameter: year_month
+      description: Monthly yellow taxi trip records in PARQUET format.
+  support_assets:
+    - asset_id: taxi_zone_lookup
+      file_role: support_table
+      acquisition_mode: direct_url
+      source_reference: https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv
+      local_name_template: taxi_zone_lookup.csv
+      url_template: https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv
+      description: Public taxi zone lookup support table used for fk_break and reference-backed checks.

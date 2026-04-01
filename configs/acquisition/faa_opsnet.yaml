@@ -1,0 +1,25 @@
+acquisition_workflow:
+  dataset_id: faa_opsnet
+  dataset_label: FAA OPSNET
+  portal_page: https://www.aspm.faa.gov/aspmhelp/index/Operations_Network_%28OPSNET%29.html
+  schema_version_reference: https://www.aspm.faa.gov/aspmhelp/index/Operations_Network_%28OPSNET%29.html
+  schema_references:
+    - https://www.aspm.faa.gov/aspmhelp/index/Main_Page.html
+    - https://www.aspm.faa.gov/aspmhelp/index/Operations_Network_%28OPSNET%29.html
+  primary_event_timestamp_column: event_month
+  update_cadence_documentation: Public FAA OPSNET finalized monthly reference extracts are acquired through the documented ASPM/OPSNET portal workflow.
+  batch_unit: monthly
+  portal_workflow:
+    - Open the FAA ASPM Help main page and the OPSNET overview page to verify the public acquisition workflow.
+    - Export the finalized monthly OPSNET reference files required for the frozen supplementary snapshot window.
+    - Save each monthly OPSNET file into the manual input directory using the exact expected name faa_opsnet_{year_month}.csv.
+  raw_assets:
+    - asset_id: faa_opsnet_monthly_extract
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://www.aspm.faa.gov/aspmhelp/index/Operations_Network_%28OPSNET%29.html
+      local_name_template: faa_opsnet_{year_month}.csv
+      manual_source_name_template: faa_opsnet_{year_month}.csv
+      repeat_parameter: year_month
+      description: Finalized monthly OPSNET extract exported from the public FAA portal workflow.
+  support_assets: []

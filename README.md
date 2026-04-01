@@ -21,3 +21,11 @@ The locked benchmark design in [`documentation.md`](docs/documentation.md) defin
 ## Role Of This Directory
 
 This scaffold is the implementation workspace for the benchmark artifact. It is not the canonical source of benchmark scope decisions. Scope, protocol, baseline, metric, and artifact requirements are defined only by [`documentation.md`](docs/documentation.md).
+
+## Acquisition Workflows
+
+Phase 1 acquisition workflows live under [`configs/acquisition`](configs/acquisition) and are executed through the `dqbench-download-snapshots` CLI.
+
+- Use `plan` to resolve the expected raw/support files for a frozen snapshot without downloading anything.
+- Use `freeze` to download direct-url assets or stage portal-exported files into the snapshot-first workspace under `data/raw` and `data/external`, then materialize snapshot manifests.
+- Portal/manual workflows fail loudly unless you first stage the exact exported files with the expected names.

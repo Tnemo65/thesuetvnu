@@ -1,0 +1,25 @@
+acquisition_workflow:
+  dataset_id: nyc311
+  dataset_label: NYC 311
+  portal_page: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-for-2010-to-present-New-York-/ar4e-ihmq/about
+  schema_version_reference: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-for-2010-to-present-New-York-/ar4e-ihmq/about
+  schema_references:
+    - https://data.cityofnewyork.us/Social-Services/311-Service-Requests-for-2010-to-present-New-York-/ar4e-ihmq/about
+    - https://www.nyc.gov/assets/oti/downloads/pdf/reports/311-location-accuracy-assessment-2022.pdf
+    - https://www.nyc.gov/site/311reporting/faq/faq.page
+  primary_event_timestamp_column: Created Date
+  update_cadence_documentation: Public NYC 311 data is available through the city open-data portal and is batched daily in the benchmark.
+  batch_unit: daily
+  portal_workflow:
+    - Open the NYC 311 open-data portal page and use the public export workflow for the frozen 12-month snapshot.
+    - Export the raw CSV snapshot covering the frozen benchmark window.
+    - Save the exported file into the manual input directory using the exact expected name nyc311_{snapshot_id}.csv.
+  raw_assets:
+    - asset_id: nyc311_snapshot
+      file_role: raw_file
+      acquisition_mode: manual_portal
+      source_reference: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-for-2010-to-present-New-York-/ar4e-ihmq/about
+      local_name_template: nyc311_{snapshot_id}.csv
+      manual_source_name_template: nyc311_{snapshot_id}.csv
+      description: Frozen CSV snapshot exported from the NYC 311 open-data portal.
+  support_assets: []

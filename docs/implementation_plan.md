@@ -102,14 +102,14 @@ Quy ước audit:
 
 ### 1.1 Public acquisition workflows
 
-- [ ] Cài acquisition workflow cho:
-  - [ ] `NYC TLC`
-  - [ ] `BTS On-Time`
-  - [ ] `Chicago Food`
-  - [ ] `NYC 311`
-  - [ ] `FAA OPSNET` supplementary extract
-- [ ] Mỗi workflow phải bám documented public URL hoặc portal workflow.
-- [ ] Mỗi workflow phải cho phép freeze snapshot reproducibly.
+- [x] Cài acquisition workflow cho:
+  - [x] `NYC TLC`
+  - [x] `BTS On-Time`
+  - [x] `Chicago Food`
+  - [x] `NYC 311`
+  - [x] `FAA OPSNET` supplementary extract
+- [x] Mỗi workflow phải bám documented public URL hoặc portal workflow.
+- [x] Mỗi workflow phải cho phép freeze snapshot reproducibly.
 
 ### 1.2 Raw snapshot manifests
 
