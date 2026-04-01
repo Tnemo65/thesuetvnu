@@ -18,7 +18,10 @@ artifact_requirements:
       - data_acquisition_scripts
       - monitored_scope_catalogs
       - injection_manifests
+      - realized_severity_manifests
+      - operator_evidence_maps
       - calibration_cleanliness_reports
+      - audited_clean_track_protocol_and_audit_outputs
       - strict_pydantic_models
       - pandera_schemas
       - manifests_and_checksums
@@ -32,6 +35,9 @@ artifact_requirements:
       - machine_readable_schema_validation_reports
       - canonical_output_schemas
       - aggregate_tables_used_in_paper
+      - transfer_analysis_tables_and_summaries
+      - domain_scale_disclosure_tables
+      - detector_native_multi_alert_appendix_outputs
   per_run_outputs:
     scope: run
     required_outputs:
@@ -46,14 +52,19 @@ artifact_requirements:
       - detector_configuration_manifest
       - software_version_manifest
       - runtime_environment_manifest
+      - detector_native_alert_appendix_outputs_when_applicable
   paper_scale_release_outputs:
     scope: paper_scale_release
     required_outputs:
       - per_domain_summary_tables
       - shared_core_cross_domain_leaderboard_tables
       - fk_break_extension_tables
-      - external_validation_case_study_outputs
+      - nyc311_external_validation_case_study_outputs
+      - austin311_external_validation_case_study_outputs
       - bts_audit_backed_supplementary_validation_outputs
+      - audited_clean_track_outputs
+      - transfer_analysis_outputs
+      - domain_scale_disclosure_outputs
   raw_data_policy:
     redistributable_source:
       required_outputs:

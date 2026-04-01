@@ -8,9 +8,9 @@ release_gate:
       description: the locked design is executed without scope drift
     - id: core_domains_executed
       check_type: integer_equals
-      expected: 3
+      expected: 6
       scope: release
-      description: all three core domains are executed under the locked protocol
+      description: all six core domains are executed under the locked protocol
     - id: released_datasets_pass_domain_inclusion_gate
       check_type: boolean
       expected: true
@@ -31,6 +31,11 @@ release_gate:
       expected: 5
       scope: release
       description: all five locked baseline families are executed
+    - id: public_code_reference_detectors_executed
+      check_type: integer_equals
+      expected: 6
+      scope: release
+      description: all six public-code reference detectors are executed under the appendix contract
     - id: primary_metrics_reported_per_condition
       check_type: integer_equals
       expected: 8
@@ -46,6 +51,16 @@ release_gate:
       expected: true
       scope: release
       description: monitored scope catalogs, injection manifests, and calibration cleanliness reports are published
+    - id: operator_evidence_and_robustness_outputs_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: operator-evidence maps and operator-level robustness appendix outputs are published
+    - id: audited_clean_track_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the audited clean track is published with its protocol and audit outputs
     - id: runtime_boundary_and_hardware_policy_published
       check_type: boolean
       expected: true
@@ -56,21 +71,46 @@ release_gate:
       expected: true
       scope: release
       description: the threshold-sensitivity appendix is published
+    - id: detector_configuration_manifests_frozen
+      check_type: boolean
+      expected: true
+      scope: release
+      description: detector configuration manifests are frozen and not revised after observing dirty-run, clean-track, or external-validation outcomes
     - id: inferential_statistics_reported
       check_type: boolean
       expected: true
       scope: release
       description: inferential statistics are reported on the shared-core leaderboard
-    - id: external_validation_track_published
+    - id: nyc311_external_validation_published
       check_type: boolean
       expected: true
       scope: release
-      description: the external validation track is published with both descriptive reports
+      description: the NYC 311 external validation track is published with both descriptive reports
+    - id: austin311_external_validation_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the Austin 311 external validation track is published with both descriptive reports
     - id: bts_audit_backed_appendix_published
       check_type: boolean
       expected: true
       scope: release
       description: the BTS audit-backed supplementary validation appendix is published
+    - id: transfer_analysis_outputs_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: transfer-analysis outputs are published
+    - id: public_code_reference_appendix_published
+      check_type: boolean
+      expected: true
+      scope: release
+      description: the shipped public-code reference-detector appendix is published
+    - id: native_multi_alert_appendix_published_if_applicable
+      check_type: boolean
+      expected: true
+      scope: release
+      description: any detector with native multi-alert behavior publishes the supplementary native-output appendix
     - id: strict_schema_validation_passes
       check_type: boolean
       expected: true

@@ -263,6 +263,8 @@ If a phase depends on artifacts from an earlier phase, do not fake or hand-wave 
 
 - Use the `src` layout. Production Python code belongs under `src/dqbench`.
 - Keep implementation config-driven. Dataset, detector, fault, calibration, and experiment behavior should live in `configs/` and manifests when possible.
+- Use project-relative paths in configs, manifests, docs, tests, and scripted entry points unless an external interface explicitly requires an absolute path. Never hardcode machine-specific home directories, workstation-local absolute paths, or OS-specific path assumptions into benchmark artifacts.
+- Prefer `pathlib` and separator-agnostic path joins in code so the same config and runtime logic remain portable across Linux, macOS, and Windows environments.
 - Prefer deterministic execution. Freeze seeds, snapshot identifiers, split definitions, manifests, and checksums wherever the spec requires them.
 - Follow `snapshot-first` reproducibility. Do not center benchmark logic around live API calls when frozen public snapshots are required.
 - Favor explicit schemas and manifests over implicit behavior.

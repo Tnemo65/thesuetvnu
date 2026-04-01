@@ -4,8 +4,15 @@ from __future__ import annotations
 
 from typing import Final
 
-CORE_DOMAIN_IDS: Final[tuple[str, ...]] = ("tlc", "bts", "chicago_food")
-EXTERNAL_VALIDATION_DOMAIN_IDS: Final[tuple[str, ...]] = ("nyc311",)
+CORE_DOMAIN_IDS: Final[tuple[str, ...]] = (
+    "tlc",
+    "bts",
+    "chicago_food",
+    "nyc_parking_violations",
+    "nyc_hpd_housing_complaints_violations",
+    "chicago_building_permits",
+)
+EXTERNAL_VALIDATION_DOMAIN_IDS: Final[tuple[str, ...]] = ("nyc311", "austin311")
 SUPPLEMENTARY_APPENDIX_IDS: Final[tuple[str, ...]] = ("bts_opsnet_audit_backed_appendix",)
 
 VALID_DOMAINS: Final[tuple[str, ...]] = CORE_DOMAIN_IDS + EXTERNAL_VALIDATION_DOMAIN_IDS
@@ -13,7 +20,11 @@ DOMAIN_BATCH_UNITS: Final[dict[str, str]] = {
     "tlc": "daily",
     "bts": "daily",
     "chicago_food": "weekly",
+    "nyc_parking_violations": "daily",
+    "nyc_hpd_housing_complaints_violations": "daily",
+    "chicago_building_permits": "daily",
     "nyc311": "daily",
+    "austin311": "daily",
 }
 VALID_BATCH_UNITS: Final[tuple[str, ...]] = ("daily", "weekly")
 
@@ -49,6 +60,9 @@ OPTIONAL_REFERENCE_DETECTORS: Final[tuple[str, ...]] = (
     "ecod",
     "copod",
     "extended_isolation_forest",
+    "knn",
+    "lof",
+    "one_class_svm",
 )
 VALID_DETECTORS: Final[tuple[str, ...]] = LOCKED_BASELINE_DETECTORS + OPTIONAL_REFERENCE_DETECTORS
 VALID_CALIBRATIONS: Final[tuple[str, ...]] = ("percentile_90", "percentile_95", "percentile_99")
@@ -77,14 +91,19 @@ VALID_SCOPE_LEVELS: Final[tuple[str, ...]] = ("relation", "table", "column")
 FK_BREAK_EXTENSION_DOMAIN_IDS: Final[tuple[str, ...]] = ("tlc", "bts")
 
 RUN_MATRIX: Final[dict[str, object]] = {
-    "shared_core_dirty_conditions": 360,
+    "shared_core_dirty_conditions": 720,
     "fk_break_extension_conditions": 60,
-    "clean_evaluation_runs": 3,
-    "total_benchmark_runs": 423,
-    "locked_baseline_detector_executions": 2115,
+    "clean_evaluation_runs": 6,
+    "total_benchmark_runs": 786,
+    "locked_baseline_detector_executions": 3930,
+    "public_code_reference_detector_executions": 4716,
+    "full_empirical_detector_executions": 8646,
     "per_domain": {
         "tlc": {"dirty_runs": 150, "clean_runs": 1},
         "bts": {"dirty_runs": 150, "clean_runs": 1},
         "chicago_food": {"dirty_runs": 120, "clean_runs": 1},
+        "nyc_parking_violations": {"dirty_runs": 120, "clean_runs": 1},
+        "nyc_hpd_housing_complaints_violations": {"dirty_runs": 120, "clean_runs": 1},
+        "chicago_building_permits": {"dirty_runs": 120, "clean_runs": 1},
     },
 }

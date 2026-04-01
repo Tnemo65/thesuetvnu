@@ -49,10 +49,17 @@ def test_run_matrix_is_locked_to_spec_counts():
     assert per_domain["tlc"] == {"dirty_runs": 150, "clean_runs": 1}
     assert per_domain["bts"] == {"dirty_runs": 150, "clean_runs": 1}
     assert per_domain["chicago_food"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["nyc_parking_violations"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["nyc_hpd_housing_complaints_violations"] == {"dirty_runs": 120, "clean_runs": 1}
+    assert per_domain["chicago_building_permits"] == {"dirty_runs": 120, "clean_runs": 1}
 
     total_runs = sum(item["dirty_runs"] + item["clean_runs"] for item in per_domain.values())
-    assert RUN_MATRIX["shared_core_dirty_conditions"] == 360
+    assert RUN_MATRIX["shared_core_dirty_conditions"] == 720
     assert RUN_MATRIX["fk_break_extension_conditions"] == 60
-    assert RUN_MATRIX["clean_evaluation_runs"] == 3
-    assert RUN_MATRIX["total_benchmark_runs"] == total_runs == 423
-    assert RUN_MATRIX["locked_baseline_detector_executions"] == total_runs * len(LOCKED_BASELINE_DETECTORS) == 2115
+    assert RUN_MATRIX["clean_evaluation_runs"] == 6
+    assert RUN_MATRIX["total_benchmark_runs"] == total_runs == 786
+    assert RUN_MATRIX["locked_baseline_detector_executions"] == total_runs * len(LOCKED_BASELINE_DETECTORS) == 3930
+    assert RUN_MATRIX["public_code_reference_detector_executions"] == total_runs * len(OPTIONAL_REFERENCE_DETECTORS) == 4716
+    assert RUN_MATRIX["full_empirical_detector_executions"] == total_runs * (
+        len(LOCKED_BASELINE_DETECTORS) + len(OPTIONAL_REFERENCE_DETECTORS)
+    ) == 8646

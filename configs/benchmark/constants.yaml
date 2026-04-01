@@ -10,9 +10,21 @@ benchmark:
       - id: chicago_food
         label: Chicago Food
         batch_unit: weekly
+      - id: nyc_parking_violations
+        label: NYC Parking Violations
+        batch_unit: daily
+      - id: nyc_hpd_housing_complaints_violations
+        label: NYC HPD Housing Complaints and Violations
+        batch_unit: daily
+      - id: chicago_building_permits
+        label: Chicago Building Permits
+        batch_unit: daily
     external_validation:
       - id: nyc311
         label: NYC 311
+        batch_unit: daily
+      - id: austin311
+        label: Austin 311
         batch_unit: daily
   supplementary_appendices:
     - id: bts_opsnet_audit_backed_appendix
@@ -44,6 +56,12 @@ benchmark:
         label: COPOD
       - id: extended_isolation_forest
         label: Extended Isolation Forest
+      - id: knn
+        label: kNN
+      - id: lof
+        label: LOF
+      - id: one_class_svm
+        label: One-Class SVM
   primary_metrics:
     - incident_recall
     - incident_precision
@@ -89,9 +107,20 @@ benchmark:
       chicago_food:
         dirty_runs: 120
         clean_runs: 1
+      nyc_parking_violations:
+        dirty_runs: 120
+        clean_runs: 1
+      nyc_hpd_housing_complaints_violations:
+        dirty_runs: 120
+        clean_runs: 1
+      chicago_building_permits:
+        dirty_runs: 120
+        clean_runs: 1
     totals:
-      shared_core_dirty_conditions: 360
+      shared_core_dirty_conditions: 720
       fk_break_extension_conditions: 60
-      clean_evaluation_runs: 3
-      benchmark_runs: 423
-      detector_executions_locked_baselines: 2115
+      clean_evaluation_runs: 6
+      benchmark_runs: 786
+      detector_executions_locked_baselines: 3930
+      detector_executions_public_code_reference: 4716
+      detector_executions_full_empirical: 8646
