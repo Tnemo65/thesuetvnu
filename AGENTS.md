@@ -88,7 +88,11 @@ Agents should assume the following are fixed unless `documentation.md` is intent
 - `NYC TLC` as a core domain
 - `BTS On-Time` as a core domain
 - `Chicago Food` as a core domain
+- `NYC Parking Violations` as a core domain
+- `NYC HPD Housing Complaints and Violations` as a core domain
+- `Chicago Building Permits` as a core domain
 - `NYC 311` as an external validation case study
+- `Austin 311` as an external validation case study
 - `BTS audit-backed supplementary appendix` using frozen `BTS` plus frozen `FAA OPSNET` extract
 
 ### Fault Families
@@ -106,6 +110,15 @@ Agents should assume the following are fixed unless `documentation.md` is intent
 - `History-Based Robust Profile Baseline`
 - `EWMA-CUSUM Sequential Baseline`
 - `Isolation Forest Baseline`
+
+### Public-Code Reference Detector Appendix
+
+- `ECOD`
+- `COPOD`
+- `Extended Isolation Forest`
+- `kNN`
+- `LOF`
+- `One-Class SVM`
 
 ### Locked Units and Conditions
 
@@ -134,8 +147,13 @@ Agents should assume the following are fixed unless `documentation.md` is intent
 - `NYC TLC`: `150` dirty runs + `1` clean evaluation run
 - `BTS On-Time`: `150` dirty runs + `1` clean evaluation run
 - `Chicago Food`: `120` dirty runs + `1` clean evaluation run
-- `423` total benchmark runs
-- `2115` detector executions for the `5` locked baselines
+- `NYC Parking Violations`: `120` dirty runs + `1` clean evaluation run
+- `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean evaluation run
+- `Chicago Building Permits`: `120` dirty runs + `1` clean evaluation run
+- `786` total benchmark runs
+- `3930` detector executions for the `5` locked baselines
+- `4716` detector executions for the `6` public-code reference detectors
+- `8646` detector executions for the full `11`-detector empirical comparison release
 
 ## Canonical Benchmark Contract
 
@@ -150,11 +168,18 @@ Agents must preserve these benchmark truths:
 - Thresholds are derived from clean calibration scores only.
 - Dirty conditions are sampled only from the evaluation pool.
 - Injection is required to be transparent: operator-bank definitions, realized manifests, and side-effect reporting are part of the contract.
+- Injection operators must carry evidence-backed rationale via literature, official audit, incident, or declared engineering-archetype mapping.
+- Each `domain x fault_family` pair must target at least `3` operators whenever the fault semantics admit three or more realistic constructions; smaller banks must be explicitly marked and justified.
 - Each core domain includes an audited clean track for false-positive and threshold-portability interpretation.
+- Clean-track audit strength is part of the contract: paper-scale releases audit at least `60` sampled batch-scope units per core domain, stratify across the clean-track timeline, and publish the resulting one-sided exact `95%` upper confidence bound.
 - The primary leaderboard is locked to `percentile_95`.
+- Detector configurations and injector definitions are predeclared and must not be revised after observing dirty-run, clean-track, or external-validation outcomes for the same released snapshot.
+- The primary leaderboard scores a single primary alert per batch; detectors with native multi-alert behavior must publish a supplementary native-output appendix.
 - External validation tracks are reported separately from the primary leaderboard.
 - The `BTS` appendix uses weak labels and discrepancy windows. It is supplementary and must never be merged into the primary leaderboard.
 - Transfer analysis is supplementary but required for paper-scale claim boundaries.
+- Paper-scale empirical releases must ship the six-detector public-code reference appendix; otherwise empirical comparison is incomplete.
+- Paper-scale releases must publish domain-scale disclosure tables for every admitted core-domain snapshot.
 - Third-party detectors must obey the same public contract as built-in baselines.
 
 ## Project Glossary
@@ -229,7 +254,7 @@ Do not jump ahead and improvise. Follow the dependency order from `implementatio
 6. implement canonical batch profiling
 7. implement the five locked baselines
 8. implement alert normalization, matching, and metrics
-9. implement `NYC 311` external validation and the `BTS` supplementary appendix
+9. implement `NYC 311`, `Austin 311`, and the `BTS` supplementary appendix
 10. implement orchestration, transfer analysis, aggregation, statistics, and release packaging
 
 If a phase depends on artifacts from an earlier phase, do not fake or hand-wave the earlier phase just to keep moving.
@@ -262,6 +287,10 @@ If a phase depends on artifacts from an earlier phase, do not fake or hand-wave 
 - Never treat weak labels as exact incident ground truth.
 - Never skip calibration cleanliness just because the acquisition pipeline is inconvenient.
 - Never omit audited clean-track protocol, injection manifests, or transfer-analysis outputs when the spec requires them.
+- Never retune detector configurations or injector definitions after observing dirty-run, clean-track, or external-validation outcomes for the same released snapshot.
+- Never publish an empirical comparison release without the required public-code reference-detector appendix.
+- Never omit required domain-scale disclosure tables or outputs.
+- Never omit operator-evidence maps or required native-output appendices when the spec requires them.
 - Never omit monitored scope catalogs, manifests, checksums, schema validation, or hardware/runtime policy when the spec requires them.
 - Never report pilot-scale shortcuts as if they satisfy the full release gate.
 - Never use placeholders that look final. If something is partial, mark it clearly as partial.
@@ -331,7 +360,11 @@ Agents should actively guard against these mistakes:
 - skipping calibration cleanliness, monitored scope catalogs, or support-table validation because they feel like metadata rather than benchmark logic
 - deriving thresholds from dirty or evaluation data instead of screened-clean calibration scores
 - using evaluation outcomes to tune hyperparameters while still claiming the locked protocol
+- revising injector definitions after observing accepted dirty-run behavior instead of freezing them up front
 - reporting a detector as strong without considering audited clean-track behavior or external-transfer evidence
+- publishing empirical comparison claims without the required public-code reference-detector appendix
+- omitting domain-scale disclosures while still implying the benchmark has convincing real-data breadth
+- omitting the native multi-alert appendix for a detector whose unreduced outputs would tell a materially different story from the single-alert leaderboard view
 - changing runtime measurement boundaries without updating the documented contract
 - publishing attractive figures while machine-readable manifests or schema reports are missing
 - substituting library defaults where the spec locks explicit hyperparameters or policies

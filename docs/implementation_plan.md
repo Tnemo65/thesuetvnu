@@ -28,12 +28,13 @@ Quy ước audit:
 
 ### 0.1 Benchmark constants
 
-- [x] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
-  - [x] `3` core domains
-  - [x] `1` external validation domain
+- [ ] Khóa toàn bộ benchmark constants thành machine-readable config hoặc constants module:
+  - [ ] `6` core domains
+  - [ ] `2` external validation domains
   - [x] `1` BTS audit-backed supplementary appendix
   - [x] `5` fault families
   - [x] `5` locked baselines
+  - [ ] `6` public-code reference detectors
   - [x] `8` primary metrics
   - [x] `5` seeds per condition
   - [x] `2` durations
@@ -49,14 +50,19 @@ Quy ước audit:
 
 ### 0.2 Run matrix and release gate
 
-- [x] Khóa run matrix:
-  - [x] `NYC TLC`: `150` dirty runs + `1` clean run
-  - [x] `BTS On-Time`: `150` dirty runs + `1` clean run
-  - [x] `Chicago Food`: `120` dirty runs + `1` clean run
-  - [x] `423` total benchmark runs
-  - [x] `2115` detector executions cho `5` locked baselines
-- [x] Chuyển paper-scale release gate thành checklist machine-checkable.
-- [x] Chuyển artifact requirements thành checklist machine-checkable.
+- [ ] Khóa run matrix:
+  - [ ] `NYC TLC`: `150` dirty runs + `1` clean run
+  - [ ] `BTS On-Time`: `150` dirty runs + `1` clean run
+  - [ ] `Chicago Food`: `120` dirty runs + `1` clean run
+  - [ ] `NYC Parking Violations`: `120` dirty runs + `1` clean run
+  - [ ] `NYC HPD Housing Complaints and Violations`: `120` dirty runs + `1` clean run
+  - [ ] `Chicago Building Permits`: `120` dirty runs + `1` clean run
+  - [ ] `786` total benchmark runs
+  - [ ] `3930` detector executions cho `5` locked baselines
+  - [ ] `4716` detector executions cho `6` public-code reference detectors
+  - [ ] `8646` detector executions cho full `11`-detector empirical comparison release
+- [ ] Chuyển paper-scale release gate thành checklist machine-checkable.
+- [ ] Chuyển artifact requirements thành checklist machine-checkable.
 
 ### 0.3 Contracts and schemas
 
@@ -98,18 +104,59 @@ Quy ước audit:
 - [x] `Pandera` schemas
 - [x] release-gate checklist machine-readable
 
+### 0.4 Repo-doc sync audit
+
+- [ ] Audit `machine-readable benchmark constants` against `docs/documentation.md`:
+  - [ ] `configs/benchmark/constants.yaml`
+  - [ ] `src/dqbench/contracts/benchmark.py`
+- [ ] Audit `machine-readable release gate` against `docs/documentation.md`:
+  - [ ] `configs/benchmark/release_gate.yaml`
+  - [ ] `configs/benchmark/artifact_requirements.yaml`
+- [ ] Audit acquisition/setup surface against locked dataset scope:
+  - [ ] `configs/acquisition/*.yaml`
+  - [ ] `configs/datasets/*.yaml`
+  - [ ] `scripts/download_snapshots.py`
+  - [ ] `src/dqbench/data/acquisition.py`
+- [ ] Audit detector/config surface against locked baseline and reference-detector scope:
+  - [ ] `configs/detectors/*.yaml`
+  - [ ] `src/dqbench/baselines/*.py`
+  - [ ] `pyproject.toml`
+- [ ] Audit orchestration and evaluation code against locked protocol:
+  - [ ] `src/dqbench/orchestration/run_experiment.py`
+  - [ ] `src/dqbench/evaluation/*.py`
+  - [ ] `src/dqbench/stats/*.py`
+- [ ] Audit tests against locked scope and release gate:
+  - [ ] `tests/contracts/*.py`
+  - [ ] `tests/orchestration/*.py`
+  - [ ] `tests/evaluation/*.py`
+  - [ ] `tests/injection/*.py`
+- [ ] Với mỗi mismatch giữa docs và repo:
+  - [ ] classify as `docs wrong`, `code/config wrong`, hoặc `both stale`
+  - [ ] fix within the same patch when benchmark semantics would otherwise drift
+  - [ ] fail loudly instead of keeping parallel truths
+
+### Deliverables
+
+- [ ] repo-doc sync audit report
+- [ ] synchronized machine-readable constants
+- [ ] synchronized release-gate config
+
 ## Phase 1. Dataset Acquisition and Snapshot Freeze
 
 ### 1.1 Public acquisition workflows
 
-- [x] Cài acquisition workflow cho:
+- [ ] Cài acquisition workflow cho:
   - [x] `NYC TLC`
   - [x] `BTS On-Time`
   - [x] `Chicago Food`
+  - [ ] `NYC Parking Violations`
+  - [ ] `NYC HPD Housing Complaints and Violations`
+  - [ ] `Chicago Building Permits`
   - [x] `NYC 311`
+  - [ ] `Austin 311`
   - [x] `FAA OPSNET` supplementary extract
-- [x] Mỗi workflow phải bám documented public URL hoặc portal workflow.
-- [x] Mỗi workflow phải cho phép freeze snapshot reproducibly.
+- [ ] Mỗi workflow phải bám documented public URL hoặc portal workflow.
+- [ ] Mỗi workflow phải cho phép freeze snapshot reproducibly.
 
 ### 1.2 Raw snapshot manifests
 
@@ -134,6 +181,22 @@ Quy ước audit:
   - [ ] ít nhất `24` calibration batches và `40` evaluation batches
   - [ ] primary event timestamp và update cadence documented
   - [ ] support-table clean join coverage đạt `>= 95%` nếu có
+  - [ ] released snapshot là contiguous official public window, không phải convenience subset
+- [ ] Verify locked minimum paper-scale windows:
+  - [ ] `NYC TLC`: contiguous `24-month` official window
+  - [ ] `BTS On-Time`: contiguous `24-month` official `PREZIP` window
+  - [ ] `Chicago Food`: contiguous `104-week` official window
+  - [ ] `NYC Parking Violations`: contiguous `24-month` official event-time window
+  - [ ] `NYC HPD Housing Complaints and Violations`: contiguous `24-month` official event-time window
+  - [ ] `Chicago Building Permits`: contiguous `24-month` official event-time window
+- [ ] Publish domain-scale disclosure cho từng core domain:
+  - [ ] total canonical fact-row count
+  - [ ] batch-row-count `p05`
+  - [ ] batch-row-count `p50`
+  - [ ] batch-row-count `p95`
+  - [ ] batch-row-count `max`
+  - [ ] number of monitored table-scoped targets
+  - [ ] number of monitored column-scoped targets
 - [ ] Dừng pipeline nếu domain không pass inclusion gate.
 
 ### Deliverables
@@ -185,7 +248,8 @@ Quy ước audit:
 
 - [ ] Sort batches chronologically.
 - [ ] Materialize candidate calibration prefix là first `30%` batches, min `24` batches.
-- [ ] Materialize evaluation pool là phần còn lại.
+- [ ] Deterministically reserve earliest contiguous `20%` của phần post-calibration, min `12` batches, làm untouched clean holdout.
+- [ ] Materialize dirty evaluation pool là phần post-calibration còn lại sau clean holdout.
 
 ### 3.2 Calibration cleanliness
 
@@ -209,11 +273,15 @@ Quy ước audit:
 - [ ] Freeze one untouched clean evaluation copy cho mỗi core domain.
 - [ ] Publish deterministic rule giữ clean track disjoint khỏi injected conditions.
 - [ ] Define predeclared random audit sampling rule trên clean batches hoặc monitored scopes.
+- [ ] Định nghĩa rõ `batch-scope` unit = `1` monitored scope tại `1` clean-track batch.
+- [ ] Audit ít nhất `60` random `batch-scope` units cho mỗi core domain, stratified theo clean-track time range.
+- [ ] Đảm bảo ít nhất `15` sampled units từ mỗi chronological quartile của clean track.
 - [ ] Materialize clean-track audit protocol, gồm:
   - [ ] untouched clean evaluation range
   - [ ] audit sampling rule
   - [ ] official corroboration source hoặc manual-review procedure
   - [ ] uncertainty / exclusion policy
+- [ ] Compute and publish one-sided exact `95%` `Clopper-Pearson` upper confidence bound on hidden-issue rate from the audit outcome.
 - [ ] Materialize audited clean-track outputs cho `clean_run_fp_batch`, `clean_run_fp_alert`, và threshold-portability reading.
 
 ### Deliverables
@@ -241,9 +309,14 @@ Quy ước audit:
   - [ ] injection operator family
   - [ ] parameter ranges
   - [ ] seed semantics
+  - [ ] operator-evidence map cho từng operator
+  - [ ] predeclared maximum generation attempts per condition
   - [ ] edit-budget or batch-manipulation policy
   - [ ] plausibility guards on non-target features
   - [ ] target-scope selection policy
+- [ ] Với các fault semantics có ít nhất `3` constructions hợp lý, mỗi `domain x fault_family` phải có ít nhất `3` operator identifiers; nếu chỉ có `1` hoặc `2`, phải mark `limited_construction` và có note giải thích.
+- [ ] Operator exposure phải được phân bổ gần cân bằng theo rule deterministic trên fixed seed set, với chênh lệch count tối đa `1` trong mỗi `domain x fault_family x severity x duration`.
+- [ ] Target-batch positions phải được phân bổ gần cân bằng theo evaluation-timeline quartiles; không được dồn incident về cuối timeline.
 - [ ] Target batches phải được sample ngẫu nhiên từ evaluation pool, không từ calibration prefix.
 - [ ] Với `freshness_lag`, state rõ implementation là delayed arrival, omitted batch materialization, hay cả hai.
 
@@ -256,6 +329,8 @@ Quy ước audit:
   - [ ] `fk_break`
 - [ ] Implement lag-length severity bands cho `freshness_lag`.
 - [ ] Verify realized dirty target feature nằm đúng severity band trước khi condition được chấp nhận.
+- [ ] Freeze injector parameter ranges, acceptance rules, và maximum generation attempts trước khi detector execution bắt đầu.
+- [ ] Cấm sửa injector definition sau khi đã thấy dirty-run, clean-track, hoặc external-validation outcomes trên cùng snapshot release.
 
 ### 4.4 Incident contract
 
@@ -273,11 +348,13 @@ Quy ước audit:
   - [x] detection window start batch
   - [x] detection window end batch
 - [ ] Materialize injection manifests với realized pre/post values.
-- [ ] Materialize selected operator id, target batches, realized non-target side effects, và acceptance/rejection reason.
+- [ ] Materialize selected operator id, target batches, realized non-target side effects, acceptance/rejection reason, và generation-attempt count.
 
 ### 4.5 Injection robustness
 
 - [ ] Nếu một fault family có nhiều operators, materialize per-operator coverage summary.
+- [ ] Materialize evaluation-timeline quartile coverage by operator.
+- [ ] Materialize rejected-candidate counts, rejection reasons, và acceptance rates by operator.
 - [ ] Publish supplementary leave-one-operator-out robustness summary khi operator bank có nhiều operators.
 - [ ] Publish triviality audit để phát hiện operators quá dễ hoặc quá lộ.
 
@@ -289,6 +366,7 @@ Quy ước audit:
 - [ ] severity validation reports
 - [ ] operator-bank manifest
 - [ ] injection robustness appendix
+- [ ] operator-evidence map
 
 ## Phase 5. Batch Profiling
 
@@ -341,23 +419,31 @@ Quy ước audit:
 - [x] Tất cả baselines dùng cùng canonical batch profiles.
 - [x] Thresholds chỉ calibrated từ clean calibration scores.
 - [x] Hyperparameters fixed theo detector family trong một domain.
+- [ ] Freeze detector configuration manifests, preprocessing rules, adapter settings, và reference-detector integration parameters trước khi dirty-run, clean-track, hoặc external-validation outcomes được quan sát.
+- [ ] Cấm retune detector configs dựa trên dirty-run, clean-track, hoặc external-validation outcomes trên cùng released snapshot.
 - [x] State-bearing baselines chỉ được initialize từ clean calibration prefix.
 - [x] Mỗi baseline emit tối đa `1 alert / batch`.
 
-### 6.4 Supplementary reference detectors
+### 6.4 Public-code reference detectors
 
-- [x] Add optional `ECOD` adapter on the same canonical batch-profile interface.
-- [x] Add optional `COPOD` adapter on the same canonical batch-profile interface.
-- [x] Add optional `Extended Isolation Forest` adapter on the same canonical batch-profile interface.
-- [x] Keep supplementary reference detectors outside the `5` locked baseline counts and release gate.
-- [x] Publish source-repo links, paper links, and integration notes for each supplementary reference detector.
+- [x] Add `ECOD` adapter on the same canonical batch-profile interface.
+- [x] Add `COPOD` adapter on the same canonical batch-profile interface.
+- [x] Add `Extended Isolation Forest` adapter on the same canonical batch-profile interface.
+- [ ] Add `kNN` adapter on the same canonical batch-profile interface.
+- [ ] Add `LOF` adapter on the same canonical batch-profile interface.
+- [ ] Add `One-Class SVM` adapter on the same canonical batch-profile interface.
+- [x] Keep public-code reference detectors outside the `5` locked baseline counts and the primary leaderboard.
+- [ ] Ensure the shipped public-code reference appendix is still treated as required for every paper-scale empirical release.
+- [ ] Publish source-repo links, paper links, and integration notes for each public-code reference detector.
+- [ ] Run and report the shipped public-code reference appendix for every paper-scale empirical release: `ECOD`, `COPOD`, `Extended Isolation Forest`, `kNN`, `LOF`, `One-Class SVM`.
 
 ### Deliverables
 
 - [x] `5` baseline implementations
-- [x] supplementary reference detector adapters
-- [x] detector config manifests
+- [ ] public-code reference detector adapters
+- [ ] detector config manifests
 - [ ] detector-level smoke tests
+- [ ] public-code reference-detector appendix
 
 ## Phase 7. Alert Generation, Matching, and Metrics
 
@@ -372,6 +458,7 @@ Quy ước audit:
   - [x] scalar score
   - [x] calibration policy identifier
 - [ ] Implement deterministic reduction cho detector native phát nhiều alert trong một batch.
+- [ ] Với detector native phát nhiều alert trong một batch, materialize supplementary native-output appendix trên unreduced outputs dưới cùng matching semantics.
 
 ### 7.2 Matching engine
 
@@ -420,12 +507,22 @@ Quy ước audit:
 ### 8.1 NYC 311 external validation
 
 - [ ] Freeze one `12-month` `NYC 311` snapshot.
+- [ ] Dùng full official `NYC 311` extract cho frozen window, không prefilter complaint type / borough / agency trước case-study construction.
 - [ ] Implement `location-quality` case study.
 - [ ] Implement `service-process timeliness` case study.
 - [ ] Implement descriptive hit-rate / lead-lag summary khi weak labels hoặc issue windows khả dụng.
 - [ ] Keep results tách khỏi primary leaderboard và inferential ranking tables.
 
-### 8.2 BTS audit-backed supplementary appendix
+### 8.2 Austin 311 external validation
+
+- [ ] Freeze one `12-month` `Austin 311` snapshot.
+- [ ] Dùng full official `Austin 311` extract hoặc full official Open311 query surface cho frozen window, không prefilter service-request category / district / department trước case-study construction.
+- [ ] Implement `service-process timeliness` case study.
+- [ ] Implement `request-status consistency` case study.
+- [ ] Implement descriptive hit-rate / lead-lag summary khi weak labels hoặc issue windows khả dụng.
+- [ ] Keep results tách khỏi primary leaderboard và inferential ranking tables.
+
+### 8.3 BTS audit-backed supplementary appendix
 
 - [ ] Freeze one `12-month` `BTS On-Time` snapshot từ primary benchmark.
 - [ ] Freeze one `FAA OPSNET` finalized monthly reference extract.
@@ -439,6 +536,7 @@ Quy ước audit:
 ### Deliverables
 
 - [ ] `NYC 311` external validation outputs
+- [ ] `Austin 311` external validation outputs
 - [ ] `BTS` appendix outputs
 - [ ] discrepancy-window manifest
 - [ ] external-validation descriptive summary tables
@@ -447,7 +545,7 @@ Quy ước audit:
 
 ### 9.1 Condition generation
 
-- [ ] Build experiment runner sinh toàn bộ condition matrix cho `3` core domains.
+- [ ] Build experiment runner sinh toàn bộ condition matrix cho `6` core domains.
 - [ ] Materialize run configs cho từng condition.
 - [ ] Materialize clean evaluation run cho từng core domain.
 
@@ -464,6 +562,7 @@ Quy ước audit:
 - [ ] Aggregate shared-core cross-domain leaderboard.
 - [ ] Aggregate `fk_break` extension tables.
 - [ ] Aggregate `NYC 311` outputs.
+- [ ] Aggregate `Austin 311` outputs.
 - [ ] Aggregate `BTS` appendix outputs.
 
 ### Deliverables
@@ -495,13 +594,24 @@ Quy ước audit:
 
 ### 10.3 Transfer analysis
 
-- [ ] Compute synthetic-to-validation rank correlation with:
+- [ ] Compute fixed `injected incident rank` from:
+  - [ ] `incident_f1`
+  - [ ] `detection_delay_norm_mean`
+  - [ ] `localization_accuracy_hierarchical`
+- [ ] Compute leave-one-domain-out transfer with:
   - [ ] `Spearman`
   - [ ] `Kendall`
-- [ ] Publish domain-transfer summary cho detector ranking narratives across the `3` core domains.
+- [ ] Compute injected-to-clean transfer with:
+  - [ ] `Spearman`
+  - [ ] `Kendall`
+- [ ] Compute injected-to-`BTS` weak-label transfer with:
+  - [ ] `Spearman`
+  - [ ] `Kendall`
+- [ ] Keep `NYC 311` descriptive unless a fixed scalar validation target is explicitly locked in the spec.
 - [ ] Publish threshold-portability summary trên:
   - [ ] audited clean track
   - [ ] `NYC 311` external validation
+  - [ ] `Austin 311` external validation
   - [ ] `BTS` supplementary appendix
 - [ ] Keep transfer analysis supplementary, không override primary leaderboard.
 
@@ -526,6 +636,7 @@ Quy ước audit:
   - [ ] detector configuration manifest
   - [ ] software version manifest
   - [ ] runtime environment manifest
+  - [ ] detector-native alert appendix outputs nếu detector native có multi-alert behavior
 
 ### 11.2 Public release contents
 
@@ -536,6 +647,7 @@ Quy ước audit:
   - [ ] data acquisition scripts
   - [ ] monitored scope catalogs
   - [ ] injection manifests and realized-severity manifests
+  - [ ] operator-evidence maps
   - [ ] calibration cleanliness reports
   - [ ] audited clean-track protocol and audit outputs
   - [ ] strict `Pydantic` models
@@ -552,6 +664,8 @@ Quy ước audit:
   - [ ] canonical output schemas
   - [ ] aggregate tables used in the paper
   - [ ] transfer-analysis tables and summaries
+  - [ ] domain-scale disclosure tables
+  - [ ] detector-native multi-alert appendix outputs when applicable
 
 ### 11.3 Raw data policy
 
@@ -574,21 +688,28 @@ Quy ước audit:
 ### 12.1 Release gate verification
 
 - [ ] Verify locked design executed without scope drift.
-- [ ] Verify all `3` core domains executed under locked protocol.
+- [ ] Verify all `6` core domains executed under locked protocol.
 - [ ] Verify all released datasets satisfy domain inclusion gate.
 - [ ] Verify shared-core leaderboard reported on matched conditions.
 - [ ] Verify `fk_break` extension reported on every qualifying domain.
 - [ ] Verify all `5` locked baselines executed.
+- [ ] Verify all `6` public-code reference detectors executed under the appendix contract.
 - [ ] Verify all `8` primary metrics reported cho mọi benchmark condition.
 - [ ] Verify clean-run false-positive evaluation included.
 - [ ] Verify monitored scope catalogs, injection manifests, calibration cleanliness reports published.
+- [ ] Verify operator-evidence maps và operator-level robustness appendix outputs published.
 - [ ] Verify audited clean-track protocol and outputs published.
 - [ ] Verify runtime boundary and hardware policy published.
 - [ ] Verify threshold-sensitivity appendix published.
+- [ ] Verify detector configuration manifests frozen and not revised after observing dirty-run, clean-track, or external-validation outcomes.
 - [ ] Verify inferential statistics reported trên shared-core leaderboard.
 - [ ] Verify `NYC 311` external validation published.
+- [ ] Verify `Austin 311` external validation published.
 - [ ] Verify `BTS` audit-backed supplementary validation appendix published.
 - [ ] Verify transfer-analysis outputs published.
+- [ ] Verify the shipped public-code reference-detector appendix is published for every paper-scale empirical release.
+- [ ] Verify any detector with native multi-alert behavior publishes the supplementary native-output appendix.
+- [ ] Verify repo-doc sync audit is complete and no machine-readable contract still disagrees with `docs/documentation.md`.
 - [ ] Verify all configs và benchmark outputs pass strict schema validation.
 - [ ] Verify artifact đủ cho third-party reproduction end-to-end.
 
@@ -620,6 +741,7 @@ Quy ước audit:
 - [ ] Plausibility guards được kiểm và report.
 - [ ] Target batch selection only draws from evaluation pool.
 - [ ] Operator-bank metadata và realized side-effect manifests hợp lệ.
+- [ ] Operator exposure is balanced under the deterministic allocation rule.
 
 ### Baseline tests
 
@@ -638,6 +760,7 @@ Quy ước audit:
 - [ ] Weak-label metrics đúng định nghĩa.
 - [ ] Rank-transfer summaries đúng định nghĩa `Spearman/Kendall`.
 - [ ] Threshold-portability summaries đúng định nghĩa.
+- [ ] `Injected incident rank` uses the fixed predeclared metric tuple only.
 
 ### Orchestration tests
 
@@ -655,7 +778,7 @@ Quy ước audit:
 ## Defaults and Locked Assumptions
 
 - [x] Chỉ bám `docs/documentation.md`.
-- [x] Không thêm domain mới.
+- [x] Khóa đúng `6` core domains + `2` external validation tracks + `1` `BTS` supplementary appendix, không mở thêm scope ngoài spec.
 - [x] Không thêm deep model.
 - [x] Không mở rộng detector API ra ngoài canonical batch-profile interface + declared public support tables.
 - [x] `BTS` appendix là supplementary weak-label validation, không phải exact-label leaderboard.
